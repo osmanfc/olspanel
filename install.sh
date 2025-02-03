@@ -26,4 +26,4 @@ wget -O requirements.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main
 chmod +x panel.sh
 sed -i 's/\r$//' panel.sh
 
-#sh panel.sh
+sh panel.sh
