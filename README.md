@@ -5,11 +5,17 @@
 ---
 
 ## 📌 Features
-✅ **Easy Installation** – Set up in minutes with a single command.  
-✅ **Lightweight & Fast** – Optimized for performance and low resource usage.  
-✅ **Built-in Security** – Secure configurations by default.  
-✅ **User-Friendly** – Simple and intuitive interface.  
-✅ **Automatic Updates** – Stay up to date with the latest features and security patches.  
+✅ **OpenLiteSpeed Web Server** – Fast and efficient web server for optimized performance.  
+✅ **MariaDB Database** – Reliable and high-performance database management.  
+✅ **Auto SSL** – Secure your websites with Let's Encrypt SSL.  
+✅ **FTP Server** – Built-in FTP management for easy file transfers.  
+✅ **DNS Server (PowerDNS)** – Integrated DNS management for domains.  
+✅ **phpMyAdmin** – Database management made simple.  
+✅ **Email Support** – Send and receive emails effortlessly.  
+✅ **File Manager** – Web-based file management for convenience.  
+✅ **PHP Management** – Configure and switch PHP versions easily.  
+✅ **Firewall Protection** – FirewallD & ConfigServer Firewall (CSF) integration.  
+✅ **One-Click Backups & Restores** – Securely back up and restore your data.  
 
 ---
 
