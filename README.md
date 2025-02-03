@@ -36,10 +36,10 @@
 Here are some screenshots of the **owpanel** control panel:
 
 ![whm](https://github.com/osmanfc/owpanel/blob/ba1405fe3bd08dcfbba865642996b44c9b789d6a/screenshort/Screenshot%202025-02-03%20160519.png)  
-*OpenLiteSpeed Web Server Dashboard*
+*OpenLiteSpeed Web Server admin/whm Dashboard*
 
-![User panel Interface](./screenshot/Screenshot%202025-02-03%20160618.png)  
-*MariaDB Management Interface*
+![User panel Interface](https://github.com/osmanfc/owpanel/blob/91fe2554c9ef5589ec5c2d08803782adacf00e4b/screenshort/user-home.png)  
+*User Panel  Interface*
 
 
 
