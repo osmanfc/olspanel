@@ -19,16 +19,18 @@
 
 ---
 
----
-##🖥️ Supported Operating Systems
-owpanel is currently supported on Ubuntu 18.04 to Ubuntu 24.04:
+## 🖥️ Supported Operating Systems
+`owpanel` is currently supported on **Ubuntu 18.04 to Ubuntu 24.04**:
 
-✅ Ubuntu 18.04 (Bionic Beaver)
-✅ Ubuntu 20.04 (Focal Fossa)
-✅ Ubuntu 22.04 (Jammy Jellyfish)
-✅ Ubuntu 24.04 (Noble Numbat)
-ℹ️ Support for additional Linux distributions is coming soon!
+- ✅ **Ubuntu 18.04 (Bionic Beaver)**
+- ✅ **Ubuntu 20.04 (Focal Fossa)**
+- ✅ **Ubuntu 22.04 (Jammy Jellyfish)**
+- ✅ **Ubuntu 24.04 (Noble Numbat)**
+
+> ℹ️ *Support for additional Linux distributions is coming soon!*
+
 ---
+
 ## 📥 Installation
 Run the following command to install `owpanel`:
 ```sh
