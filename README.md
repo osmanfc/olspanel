@@ -35,7 +35,7 @@
 
 Here are some screenshots of the **owpanel** control panel:
 
-![whm](./screenshot/Screenshot%202025-02-03%20160519.png)  
+![whm](https://github.com/osmanfc/owpanel/blob/ba1405fe3bd08dcfbba865642996b44c9b789d6a/screenshort/Screenshot%202025-02-03%20160519.png)  
 *OpenLiteSpeed Web Server Dashboard*
 
 ![User panel Interface](./screenshot/Screenshot%202025-02-03%20160618.png)  
