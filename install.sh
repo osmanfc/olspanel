@@ -25,4 +25,4 @@ wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER
 chmod +x panel.sh
 sed -i 's/\r$//' panel.sh
 
-#sh panel.sh
+sh panel.sh
