@@ -19,10 +19,9 @@ fi
 # Update system and install required packages
 sudo apt update -qq && sudo apt install -y -qq wget curl
 
-# Run panel.sh directly from GitHub
-sh <(curl -fsSL "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh" || wget -qO- "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh")
+wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh" 2>/dev/null
 
-
+# Ensure the script is executable
 chmod +x panel.sh
 sed -i 's/\r$//' panel.sh
 
