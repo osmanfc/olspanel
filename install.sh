@@ -21,9 +21,11 @@ sudo apt update -qq && sudo apt install -y -qq wget curl
 
 wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh" 2>/dev/null
 wget -O requirements.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/requirements.txt" 2>/dev/null
-
+sudo mkdir -p /root/item
+wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
+unzip /root/item/install.zip -d /root/item/
 # Ensure the script is executable
 chmod +x panel.sh
 sed -i 's/\r$//' panel.sh
 
-sh panel.sh
+#sh panel.sh
