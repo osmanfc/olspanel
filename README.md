@@ -31,6 +31,19 @@
 
 ---
 
+## 🖼️ Screenshots
+
+Here are some screenshots of the **owpanel** control panel:
+
+![whm](./screenshot/Screenshot%202025-02-03%20160519.png)  
+*OpenLiteSpeed Web Server Dashboard*
+
+![User panel Interface](./screenshot/Screenshot%202025-02-03%20160618.png)  
+*MariaDB Management Interface*
+
+
+
+
 ## 📥 Installation
 Run the following command to install `owpanel`:
 ```sh
