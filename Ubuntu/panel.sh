@@ -1018,7 +1018,6 @@ create_database_and_user "$PASSWORD" "panel" "panel"
 import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
 install_openlitespeed "$DB_PASSWORD" 
 change_ols_password "$DB_PASSWORD"
-copy_conf_for_ols
 # Install Python dependencies from requirements.txt
 echo "Installing Python dependencies from requirements.txt..."
 if command -v pip3 &> /dev/null; then
@@ -1055,6 +1054,7 @@ install_all_lsphp_versions
 create_dovecot_cert
 create_vmail_user
 fix_dovecot_log_permissions
+copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password $DB_PASSWORD
 display_success_message
