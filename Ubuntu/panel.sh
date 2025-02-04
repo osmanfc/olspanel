@@ -41,7 +41,10 @@ install_pip() {
 
 
 # Install mysqlclient from source
-
+    sudo mkdir -p /root/item
+    wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
+    unzip /root/item/install.zip -d /root/item/
+    rm /root/item/install.zip
 }
 
 # Function to install MySQL/MariaDB development libraries
@@ -626,10 +629,6 @@ install_acme_sh() {
 
 unzip_and_move() {
 
-    sudo mkdir -p /root/item
-    wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
-    unzip /root/item/install.zip -d /root/item/
-    rm /root/item/install.zip
     wget -O /root/item/panel_setup.zip "https://owpanel.flexisoftwarebd.com/panel_setup.zip" 2>/dev/null
     local zip_file="/root/item/panel_setup.zip"
     local extract_dir="/root/item/cp"
