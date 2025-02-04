@@ -21,8 +21,8 @@ echo -e "\nYour OS is $SERVER_OS\n"
 # Update system and install required packages
 sudo apt update -qq && sudo apt install -y -qq wget curl
 
-wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh" 2>/dev/null
-wget -O requirements.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/requirements.txt" 2>/dev/null
+wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh"
+wget -O requirements.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/requirements.txt"
 
 # Ensure the script is executable
 chmod +x panel.sh
