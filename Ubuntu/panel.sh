@@ -7,6 +7,11 @@ wait_for_apt_lock() {
         sleep 5
     done
 }
+disable_kernel_message() {
+    sudo sed -i 's/^#\?\(\$nrconf{kernelhints} = \).*/\1 0;/' /etc/needrestart/needrestart.conf
+    sudo systemctl restart needrestart
+    echo "Kernel upgrade message disabled."
+}
 
 # Function to generate a MariaDB-compatible random password
 generate_mariadb_password() {
@@ -972,6 +977,10 @@ display_success_message() {
     echo "Username: admin"
     echo "Password: ${DB_PASSWORDx}${NC}"
 }
+
+
+
+disable_kernel_message
 # Directory to save the password
 PASSWORD_DIR="/root/item"
 PASSWORD_FILE="$PASSWORD_DIR/mysqlPassword"
