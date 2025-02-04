@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo -e "\nOwPanel is now starting soon please wait...\n"
 # Detect OS version
 OUTPUT=$(cat /etc/*release)
 
@@ -16,6 +17,7 @@ else
     exit 1
 fi
 
+echo -e "\nYour OS is $SERVER_OS\n"
 # Update system and install required packages
 sudo apt update -qq && sudo apt install -y -qq wget curl
 
