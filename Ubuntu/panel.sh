@@ -65,7 +65,7 @@ install_mariadb() {
     fi
 
     echo "Installing MariaDB server and client..."
-    sudo sudo apt install -y mariadb-server mariadb-client
+    sudo apt install -y mariadb-server mariadb-client
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
