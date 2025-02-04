@@ -1073,8 +1073,8 @@ copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "${DB_PASSWORD:-112233}"
 display_success_message
-sudo systemctl stop systemd-resolved
-sudo systemctl disable systemd-resolved
+sudo systemctl stop systemd-resolved >/dev/null 2>&1
+sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
 sleep 3
 sudo systemctl restart pdns
