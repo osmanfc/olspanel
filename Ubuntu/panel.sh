@@ -1062,7 +1062,7 @@ create_vmail_user
 fix_dovecot_log_permissions
 copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
-python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password $DB_PASSWORD
+python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "${DB_PASSWORD:-112233}"
 display_success_message
 sudo systemctl stop systemd-resolved
 sudo systemctl disable systemd-resolved
