@@ -65,7 +65,7 @@ install_mariadb() {
     fi
 
     echo "Installing MariaDB server and client..."
-    sudo apt install -y mariadb-server mariadb-client
+    sudo apt update && sudo apt install -y mariadb-server mariadb-client
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
@@ -73,7 +73,7 @@ install_mariadb() {
     fi
 
     echo "Securing MariaDB installation..."
-    SECURE_OUTPUT=$(sudo mysql_secure_installation <<EOF 2>&1)
+    sudo mysql_secure_installation <<EOF
 
 Y
 $MYSQL_ROOT_PASSWORD
@@ -84,9 +84,8 @@ Y
 Y
 EOF
 
-    # Check if the output contains "Access denied" or "incorrect password"
-    if echo "$SECURE_OUTPUT" | grep -qiE "access denied|incorrect password"; then
-        echo "Error: Incorrect password or access denied while securing MariaDB."
+    if [ $? -ne 0 ]; then
+        echo "Failed to secure MariaDB installation. Skipping this task."
         return 1  # Skip task and continue with the script
     fi
 
