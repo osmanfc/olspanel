@@ -926,26 +926,32 @@ fix_dovecot_log_permissions() {
 
     # Set ownership to vmail user
     echo "Setting ownership for $LOG_FILE and $LOG_DIR to $USER..."
-    chown -R $USER:$USER $LOG_DIR
+    chown -R $USER:$USER "$LOG_DIR"
 
     # Set appropriate permissions for the log file and directory
     echo "Setting permissions for $LOG_FILE..."
-    chmod 644 $LOG_FILE
-    chmod -R 700 $LOG_DIR
+    chmod 644 "$LOG_FILE"
+    chmod -R 700 "$LOG_DIR"
 
     # Restart Dovecot service to apply changes
     echo "Restarting Dovecot service..."
     systemctl restart dovecot
 
-    # Check SELinux status and inform user if applicable
-    if command -v getenforce &>/dev/null && [ "$(getenforce)" == "Enforcing" ]; then
-        echo "SELinux is enabled. Checking for possible SELinux denials..."
-        ausearch -m avc -ts recent
-        echo "If SELinux is the cause, consider setting it to permissive temporarily: setenforce 0"
+    # Check if SELinux exists before running getenforce
+    if command -v getenforce &>/dev/null; then
+        SELINUX_STATUS=$(getenforce)
+        if [ "$SELINUX_STATUS" = "Enforcing" ]; then
+            echo "SELinux is enabled. Checking for possible SELinux denials..."
+            ausearch -m avc -ts recent
+            echo "If SELinux is the cause, consider setting it to permissive temporarily: setenforce 0"
+        fi
+    else
+        echo "SELinux is not installed or not available on this system."
     fi
 
     echo "Dovecot log permissions fixed successfully!"
 }
+
 
 display_success_message() {
 
