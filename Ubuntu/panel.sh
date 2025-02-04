@@ -57,7 +57,7 @@ install_mariadb() {
     fi
 
     echo "Installing MariaDB server and client..."
-    sudo apt update && sudo apt install -y mariadb-server mariadb-client
+    sudo sudo apt install -y mariadb-server mariadb-client
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
@@ -210,7 +210,7 @@ install_mail_and_ftp_server() {
     echo "Installing Postfix, Dovecot, MariaDB, and Pure-FTPd..."
 
     # Update the package list
-    sudo apt update
+   
 
     # Install Postfix and related packages
     sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
@@ -247,7 +247,7 @@ install_powerdns_and_mysql_backend() {
     echo "Installing OpenSSL, PowerDNS, and PowerDNS MySQL backend..."
 
     # Install necessary packages
-    sudo apt update
+    
     sudo apt install -y openssl pdns-server pdns-backend-mysql
 
     if [ $? -ne 0 ]; then
@@ -370,7 +370,7 @@ generate_pureftpd_ssl_certificate() {
     # Check if OpenSSL is installed
     if ! command -v openssl &> /dev/null; then
         echo "OpenSSL is not installed. Installing it now..."
-        sudo apt update && sudo apt install -y openssl
+        sudo apt install -y openssl
         if [ $? -ne 0 ]; then
             echo "Failed to install OpenSSL. Exiting."
             return 1
@@ -431,7 +431,7 @@ install_openlitespeed() {
     echo "Installing OpenLiteSpeed Web Server on Ubuntu..."
 
     # Update the package list
-    sudo apt update
+   
 
     # Download the OpenLiteSpeed repository setup script
     echo "Downloading OpenLiteSpeed repository setup script..."
@@ -580,7 +580,7 @@ allow_ports() {
 install_zip_and_tar() {
     # Update package list
     echo "Updating package list..."
-    sudo apt update -y
+    
 
     # Install zip if not already installed
     if ! command -v zip &> /dev/null; then
