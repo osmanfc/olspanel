@@ -356,6 +356,7 @@ copy_files_and_replace_password() {
     sudo chmod 644 /etc/postfix/vmail_ssl.map
 
     # Set ownership and permissions for the vmail directory
+    sudo mkdir -p /home/vmail
     sudo chown -R vmail:vmail /home/vmail
     sudo chmod -R 700 /home/vmail
 
