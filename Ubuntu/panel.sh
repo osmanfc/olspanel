@@ -128,6 +128,9 @@ create_database_and_user() {
 
     # Generate a random password for the new user
     local DB_PASSWORD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 16)
+    echo "${DB_PASSWORD}" > /root/db_credentials_panel.txt
+    chmod 600 /root/db_credentials_${DB_USER}.txt
+   
 
     echo "Creating database and user..."
 
@@ -144,9 +147,7 @@ EOF
         echo "Generated password for '${DB_USER}': ${DB_PASSWORD}"
 
         # Optionally save the credentials to a secure file
-        echo "${DB_PASSWORD}" > /root/db_credentials_${DB_USER}.txt
-        chmod 600 /root/db_credentials_${DB_USER}.txt
-        echo "Credentials saved to /root/db_credentials_${DB_USER}.txt"
+       
     else
         echo "Failed to create database or user. Please check the MariaDB server status and root password."
         return 1
