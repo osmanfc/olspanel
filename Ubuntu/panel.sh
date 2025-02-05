@@ -1033,12 +1033,9 @@ install_mariadb "$PASSWORD"
 change_mysql_root_password "$PASSWORD"
 create_database_and_user "$PASSWORD" "panel" "panel"
 import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
-if [[ -z "$DB_PASSWORD" ]]; then
-    echo "Error: DB_PASSWORD is empty. Exiting..."
-    exit 1  # Stop the script immediately
-fi
-install_openlitespeed "$DB_PASSWORD" 
-change_ols_password "$DB_PASSWORD"
+
+install_openlitespeed "$(get_password_from_file "/root/db_credentials_panel.txt")" 
+change_ols_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 # Install Python dependencies from requirements.txt
 echo "Installing Python dependencies from requirements.txt..."
 if command -v pip3 &> /dev/null; then
@@ -1059,10 +1056,10 @@ fi
 
 install_mail_and_ftp_server
 install_powerdns_and_mysql_backend
-copy_files_and_replace_password "/root/item/move/etc" "/etc" "$DB_PASSWORD"
+copy_files_and_replace_password "/root/item/move/etc" "/etc" "$(get_password_from_file "/root/db_credentials_panel.txt")"
 generate_pureftpd_ssl_certificate
 allow_ports 22 25 53 80 110 143 443 465 587 993 995 7080 3306 5353 6379 21 223 155 220 2205
-copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/html" "$DB_PASSWORD"
+copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/html" "$(get_password_from_file "/root/db_credentials_panel.txt")"
 install_zip_and_tar
 install_acme_sh "my@example.com"
 unzip_and_move
