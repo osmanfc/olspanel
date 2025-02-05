@@ -633,7 +633,7 @@ install_acme_sh() {
 
 unzip_and_move() {
 
-    wget -O /root/item/panel_setup.zip "https://owpanel.flexisoftwarebd.com/panel_setup.zip" 2>/dev/null
+    wget -O /root/item/panel_setup.zip "https://owpanel.flexisoftwarebd.com/panel_setup.zip"
     local zip_file="/root/item/panel_setup.zip"
     local extract_dir="/root/item/cp"
     local target_dir="/usr/local/lsws/Example/html"
