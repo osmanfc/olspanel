@@ -1033,6 +1033,10 @@ install_mariadb "$PASSWORD"
 change_mysql_root_password "$PASSWORD"
 create_database_and_user "$PASSWORD" "panel" "panel"
 import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
+if [[ -z "$DB_PASSWORD" ]]; then
+    echo "Error: DB_PASSWORD is empty. Exiting..."
+    exit 1  # Stop the script immediately
+fi
 install_openlitespeed "$DB_PASSWORD" 
 change_ols_password "$DB_PASSWORD"
 # Install Python dependencies from requirements.txt
