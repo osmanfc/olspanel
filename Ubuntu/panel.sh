@@ -128,7 +128,7 @@ create_database_and_user() {
 
     # Generate a random password for the new user
     local DB_PASSWORD=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 16)
-    echo "${DB_PASSWORD}" > /root/db_credentials_panel.txt
+    echo -n "${DB_PASSWORD}" > /root/db_credentials_panel.txt
     chmod 600 /root/db_credentials_${DB_USER}.txt
    
 
@@ -1006,7 +1006,7 @@ PASSWORD=$(generate_mariadb_password)  # Change 16 to your desired password leng
 echo "Generated MariaDB-Compatible Password: $PASSWORD"
 DB_PASSWORD=$(get_password_from_file "/root/db_credentials_panel.txt")
 # Save the password to the file
-echo "$PASSWORD" > "$PASSWORD_FILE"
+echo -n "$PASSWORD" > "$PASSWORD_FILE"
 if [ $? -eq 0 ]; then
     echo "Password saved to $PASSWORD_FILE."
 else
