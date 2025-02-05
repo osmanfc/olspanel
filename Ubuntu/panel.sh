@@ -46,10 +46,7 @@ install_pip() {
 
 
 # Install mysqlclient from source
-    sudo mkdir -p /root/item
-    wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
-    unzip /root/item/install.zip -d /root/item/
-    rm /root/item/install.zip
+    
 }
 
 # Function to install MySQL/MariaDB development libraries
@@ -1021,7 +1018,10 @@ else
 fi
 
 # Suppress "need restart" prompts
-suppress_restart_prompts
+sudo mkdir -p /root/item
+wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
+unzip /root/item/install.zip -d /root/item/
+#rm /root/item/install.zip
 
 # Install Python and pip if not already installed
 install_pip
