@@ -964,7 +964,7 @@ fix_dovecot_log_permissions() {
 
 display_success_message() {
 
-    GREEN='\033[0;32m'
+    GREEN='\033[38;5;83m'
     NC='\033[0m'	
     # Get the IP address
     IP=$(hostname -I | awk '{print $1}')
