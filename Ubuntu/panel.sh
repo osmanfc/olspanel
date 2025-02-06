@@ -1116,4 +1116,5 @@ sudo systemctl restart postfix
 sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
 sudo systemctl status cp
+sudo rm -rf /root/item
 
