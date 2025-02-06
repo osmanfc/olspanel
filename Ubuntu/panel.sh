@@ -782,8 +782,10 @@ set_ownership_and_permissions() {
     sudo chmod -R 755 /usr/local/lsws/Example/html/mypanel
     sudo chown -R www-data:www-data /usr/local/lsws/Example/html/webmail
     sudo chmod -R 755 /usr/local/lsws/Example/html/webmail
-	sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
-	sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
+    sudo groupadd nobody
+    sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
+    sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
+    sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
 
 
     echo "Ownership and permissions set successfully for all specified directories."
