@@ -9,6 +9,7 @@ wait_for_apt_lock() {
 }
 disable_kernel_message() {
     sudo sed -i 's/^#\?\(\$nrconf{kernelhints} = \).*/\1 0;/' /etc/needrestart/needrestart.conf
+    sudo sed -i 's/^#\?\(\$nrconf{restart} = \).*/\1"a";/' /etc/needrestart/needrestart.conf
     sudo systemctl restart needrestart
     echo "Kernel upgrade message disabled."
 }
