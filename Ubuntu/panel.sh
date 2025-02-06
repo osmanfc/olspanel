@@ -791,6 +791,26 @@ set_ownership_and_permissions() {
     echo "Ownership and permissions set successfully for all specified directories."
 }
 
+
+add_backup_cronjobs() {
+    local PYTHON_CMD=$(which python3)
+    local BACKUP_SCRIPT="/usr/local/lsws/Example/html/mypanel/manage.py"
+
+    # Define the cron jobs
+    local CRON_JOBS="\
+0 * * * * $PYTHON_CMD $BACKUP_SCRIPT backup --hour
+0 0 * * * $PYTHON_CMD $BACKUP_SCRIPT backup --day
+0 0 * * 0 $PYTHON_CMD $BACKUP_SCRIPT backup --week
+0 0 1 * * $PYTHON_CMD $BACKUP_SCRIPT backup --month
+"
+
+    # Add cron jobs for root user
+    ( crontab -l 2>/dev/null | grep -v "$BACKUP_SCRIPT"; echo "$CRON_JOBS" ) | crontab -
+
+    echo "Cron jobs have been added successfully!"
+}
+
+
 remove_files_in_html_folder() {
     target_dir="/usr/local/lsws/Example/html"
     files_to_remove="index.html phpinfo.php upload.html upload.php"
@@ -1083,6 +1103,7 @@ fix_dovecot_log_permissions
 copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+add_backup_cronjobs
 display_success_message
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
