@@ -1022,7 +1022,7 @@ else
     echo "Failed to set permissions for $PASSWORD_FILE. Exiting."
     exit 1
 fi
-
+install_zip_and_tar
 # Suppress "need restart" prompts
 sudo mkdir -p /root/item
 wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/owpanel/main/item/install" 2>/dev/null
@@ -1065,7 +1065,7 @@ copy_files_and_replace_password "/root/item/move/etc" "/etc" "$(get_password_fro
 generate_pureftpd_ssl_certificate
 allow_ports 22 25 53 80 110 143 443 465 587 993 995 7080 3306 5353 6379 21 223 155 220 2205
 copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/html" "$(get_password_from_file "/root/db_credentials_panel.txt")"
-install_zip_and_tar
+
 install_acme_sh "my@example.com"
 unzip_and_move
 setup_cp_service_with_port
