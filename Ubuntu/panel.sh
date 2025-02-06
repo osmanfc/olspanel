@@ -1093,5 +1093,6 @@ sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
 sudo systemctl restart dovecot
+sudo systemctl restart pure-ftpd-mysql
 sudo systemctl status cp
 
