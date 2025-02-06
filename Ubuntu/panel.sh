@@ -1085,6 +1085,8 @@ display_success_message
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
+sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
+sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
