@@ -246,7 +246,8 @@ install_mail_and_ftp_server() {
         echo "Failed to install Pure-FTPd. Exiting."
         exit 1
     fi
-
+    
+    sudo apt install opendkim opendkim-tools -y
     echo "Mail server and FTP server installation completed successfully!"
 }
 
