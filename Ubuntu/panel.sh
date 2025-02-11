@@ -1111,6 +1111,7 @@ systemctl restart systemd-networkd >/dev/null 2>&1
 sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
 sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
 sudo postmap /etc/postfix/script_filter
+sudo postmap /etc/postfix/vmail_ssl.map
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
