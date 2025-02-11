@@ -1119,6 +1119,7 @@ sudo systemctl restart pdns
 sudo systemctl restart postfix
 sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
+sudo systemctl restart opendkim
 sudo systemctl restart cp
 sudo rm -rf /root/item
 
