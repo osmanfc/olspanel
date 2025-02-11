@@ -1110,11 +1110,12 @@ sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
 sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
 sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
+sudo postmap /etc/postfix/script_filter
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
 sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
-sudo systemctl status cp
+sudo systemctl restart cp
 sudo rm -rf /root/item
 
