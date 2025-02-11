@@ -1112,6 +1112,7 @@ sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
 sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
 sudo postmap /etc/postfix/script_filter
 sudo postmap /etc/postfix/vmail_ssl.map
+mkdir -p /etc/opendkim
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
