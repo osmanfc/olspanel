@@ -1,6 +1,6 @@
-# 🚀 owpanel - Free OpenLiteSpeed Web Hosting Control Panel
+# 🚀 OLSpanel - Free OpenLiteSpeed Web Hosting Control Panel
 
-`owpanel` is a **free** and lightweight control panel designed for managing OpenLiteSpeed web hosting with ease. With just a few clicks, you can install and start managing your web server effortlessly.
+`OLSpanel` is a **free** and lightweight control panel designed for managing OpenLiteSpeed web hosting with ease. With just a few clicks, you can install and start managing your web server effortlessly.
 
 ---
 
@@ -20,7 +20,7 @@
 ---
 
 ## 🖥️ Supported Operating Systems
-`owpanel` is currently supported on **Ubuntu 18.04 to Ubuntu 24.04**:
+`OLSpanel` is currently supported on **Ubuntu 18.04 to Ubuntu 24.04**:
 
 - ✅ **Ubuntu 18.04 (Bionic Beaver)**
 - ✅ **Ubuntu 20.04 (Focal Fossa)**
@@ -33,7 +33,7 @@
 
 ## 🖼️ Screenshots
 
-Here are some screenshots of the **owpanel** control panel:
+Here are some screenshots of the **OLSpanel** control panel:
 
 *OpenLiteSpeed Web Server admin/whm Dashboard*
 ![whm](https://github.com/osmanfc/olspanel/blob/ba1405fe3bd08dcfbba865642996b44c9b789d6a/screenshort/Screenshot%202025-02-03%20160519.png)  
@@ -46,6 +46,6 @@ Here are some screenshots of the **owpanel** control panel:
 
 
 ## 📥 Installation
-Run the following command to install `owpanel`:
+Run the following command to install `OLSpanel`:
 ```sh
-bash <(curl -fsSL https://raw.githubusercontent.com/osmanfc/owpanel/main/install.sh || wget -qO- https://raw.githubusercontent.com/osmanfc/owpanel/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/osmanfc/olspanel/main/install.sh || wget -qO- https://raw.githubusercontent.com/osmanfc/olspanel/main/install.sh)
