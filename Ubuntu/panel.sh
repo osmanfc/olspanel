@@ -1090,7 +1090,7 @@ generate_pureftpd_ssl_certificate
 allow_ports 22 25 53 80 110 143 443 465 587 993 995 7080 3306 5353 6379 21 223 155 220 2205
 copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/html" "$(get_password_from_file "/root/db_credentials_panel.txt")"
 
-install_acme_sh "olspanel@gmail.com"
+install_acme_sh "olspanel.cp@gmail.com"
 acme.sh --set-default-ca --server letsencrypt
 unzip_and_move
 setup_cp_service_with_port
