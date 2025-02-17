@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo -e "\nOwPanel is now starting soon please wait...\n"
+echo -e "\nOLS Panel is now starting soon please wait...\n"
 # Detect OS version
 OUTPUT=$(cat /etc/*release)
 
@@ -13,7 +13,7 @@ elif echo "$OUTPUT" | grep -q "Ubuntu 22.04"; then
 elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     SERVER_OS="Ubuntu"
 else
-    echo -e "\nOwPanel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
+    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
     exit 1
 fi
 
