@@ -681,6 +681,7 @@ unzip_and_move() {
 
 setup_cp_service_with_port() {
     local service_file="/root/item/move/conf/cp.service"
+    local httpd_file="/root/item/move/conf/httpd_config.conf"
     local target_dir="/etc/systemd/system/"
     local target_file="${target_dir}cp.service"
     local port_file="/root/item/port.txt"
@@ -702,9 +703,9 @@ setup_cp_service_with_port() {
         return 1
     fi
 
-    # Replace the old port (8001) in the existing service file
-    echo "Updating the port in '$service_file' to '$new_port'..."
-    sed -i "s/8001/$new_port/g" "$service_file"
+    # Replace the old port (2083) in the existing service file
+    echo "Updating the port in '$httpd_file' to '$new_port'..."
+    sed -i "s/2083/$new_port/g" "$httpd_file"
     if [ $? -ne 0 ]; then
         echo "Failed to update the port in the service file. Exiting."
         return 1
