@@ -1126,5 +1126,6 @@ sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
 sudo systemctl restart opendkim
 sudo systemctl restart cp
+sudo /usr/local/lsws/bin/lswsctrl restart
 sudo rm -rf /root/item
 
