@@ -841,7 +841,7 @@ remove_files_in_html_folder() {
 }
 
 copy_vhconf_to_example() {
-    local source_file="/root/item/move/conf/vhconf.conf"
+    local source_file="/root/item/move/conf/Example/vhconf.conf"
     local target_dir="/usr/local/lsws/conf/vhosts/Example"
     local target_file="$target_dir/vhconf.conf"
 
@@ -868,7 +868,8 @@ copy_vhconf_to_example() {
         echo "Failed to copy the file. Exiting."
         return 1
     fi
-
+   mkdir -p /usr/local/lsws/conf/vhosts/mypanel 
+   cp /root/item/move/conf/mypanel/vhconf.conf /usr/local/lsws/conf/vhosts/mypanel/vhconf.conf
     echo "File copied successfully to '$target_file'."
 }
 
