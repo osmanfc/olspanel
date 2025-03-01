@@ -1119,6 +1119,10 @@ sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
 sudo postmap /etc/postfix/script_filter
 sudo postmap /etc/postfix/vmail_ssl.map
 mkdir -p /etc/opendkim
+sudo mkdir -p /etc/opendkim/keys
+sudo touch /etc/opendkim/KeyTable
+sudo touch /etc/opendkim/SigningTable
+sudo touch /etc/opendkim/TrustedHosts
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
