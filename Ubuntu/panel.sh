@@ -1,4 +1,13 @@
-#!/bin/sh
+#!/bin/bash
+
+UBUNTU_VERSION=$(lsb_release -sr | cut -d. -f1)
+
+# Define OpenLiteSpeed service name based on Ubuntu version
+if [ "$UBUNTU_VERSION" -ge 24 ]; then
+    SYSTEMD_SERVICE="lshttpd"
+else
+    SYSTEMD_SERVICE="lsws"
+fi
 
 # Function to wait for the apt lock to be released
 wait_for_apt_lock() {
@@ -22,33 +31,34 @@ generate_mariadb_password() {
 }
 
 
-# Function to install Python and pip
 install_pip() {
     echo "Updating system..."
     wait_for_apt_lock
     sudo apt update && sudo apt upgrade -y
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo apt install python3 -y
-    echo "Installing pip..."
-    wait_for_apt_lock
-    sudo apt install python3-pip -y
-
-    # Verify pip installation
-    echo "Verifying pip installation..."
-    pip3 --version
-
-    echo "pip installation completed!"
-	sudo apt install pkg-config libmysqlclient-dev -y
-	pip install --upgrade pip setuptools
-	pip install --no-binary :all: mysqlclient
-
-# Upgrade pip and setuptools
-
-
-# Install mysqlclient from source
+    sudo apt install python3 python3-venv python3-pip pkg-config libmysqlclient-dev -y
     
+    # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
+    if [ "$UBUNTU_VERSION" -ge 24 ]; then
+        echo "Creating virtual environment for Python dependencies..."
+        python3 -m venv /root/venv
+        source /root/venv/bin/activate
+    fi
+    
+    echo "Upgrading pip and setuptools..."
+    pip install --upgrade pip setuptools
+    echo "Installing mysqlclient..."
+    pip install --no-binary :all: mysqlclient
+    
+    if [ "$UBUNTU_VERSION" -ge 24 ]; then
+        deactivate
+    fi
+    
+    echo "Python and pip setup completed!"
 }
+
+
 
 # Function to install MySQL/MariaDB development libraries
 
@@ -436,36 +446,16 @@ install_openlitespeed() {
     local NEW_ADMIN_USERNAME="admin"   # Default admin username
     local NEW_ADMIN_PASSWORD="$1" # Default admin password
 
-   
-
     echo "Installing OpenLiteSpeed Web Server on Ubuntu..."
-
-    # Update the package list
-   
-
-    # Download the OpenLiteSpeed repository setup script
-    echo "Downloading OpenLiteSpeed repository setup script..."
     wget -O openlitespeed.sh https://repo.litespeed.sh
-
-    # Run the script to add the OpenLiteSpeed repository
-    echo "Running the repository setup script..."
     sudo bash openlitespeed.sh
-
-    # Install OpenLiteSpeed
-    echo "Installing OpenLiteSpeed..."
     sudo apt install openlitespeed -y
-
-    # Verify installation
+    
     if command -v lswsctrl &> /dev/null; then
         echo "OpenLiteSpeed installed successfully."
-
-        # Start OpenLiteSpeed service
         echo "Starting OpenLiteSpeed service..."
         sudo /usr/local/lsws/bin/lswsctrl start
-        sudo systemctl enable lsws
-
-         
-        # Display installed version
+        sudo systemctl enable "$SYSTEMD_SERVICE"
         echo "Checking OpenLiteSpeed version..."
         sudo /usr/local/lsws/bin/lshttpd -v
     else
@@ -1009,7 +999,27 @@ display_success_message() {
     echo "Password: ${DB_PASSWORDx}${NC}"
 }
 
-
+install_python_dependencies() {
+    echo "Installing Python dependencies from requirements.txt..."
+    if command -v pip3 &> /dev/null; then
+        if [ "$UBUNTU_VERSION" -ge 24 ]; then
+            source /root/venv/bin/activate
+        fi
+        pip install -r requirements.txt
+        if [ $? -eq 0 ]; then
+            echo "Python dependencies installed successfully."
+        else
+            echo "Failed to install Python dependencies. Exiting."
+            exit 1
+        fi
+        if [ "$UBUNTU_VERSION" -ge 24 ]; then
+            deactivate
+        fi
+    else
+        echo "pip3 is not installed. Exiting."
+        exit 1
+    fi
+}
 
 disable_kernel_message
 # Directory to save the password
@@ -1067,23 +1077,7 @@ import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
 
 install_openlitespeed "$(get_password_from_file "/root/db_credentials_panel.txt")" 
 change_ols_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
-# Install Python dependencies from requirements.txt
-echo "Installing Python dependencies from requirements.txt..."
-if command -v pip3 &> /dev/null; then
-    pip3 install -r requirements.txt
-    if [ $? -eq 0 ]; then
-        echo "Python dependencies installed successfully."
-    else
-        echo "Failed to install Python dependencies. Exiting."
-        exit 1
-    fi
-else
-    echo "pip3 is not installed. Exiting."
-    exit 1
-fi
-
-# Check if a reboot is required and reboot automatically
-#check_and_reboot
+install_python_dependencies
 
 install_mail_and_ftp_server
 install_powerdns_and_mysql_backend
