@@ -467,9 +467,9 @@ install_openlitespeed() {
 
 change_ols_password() {
     # Check if a custom password is provided as an argument
-    if [[ -z "$1" ]]; then
+    if [ -z "$1" ]; then
         echo "Error: No password provided."
-        echo "Usage: Post_Install_Regenerate_Webadmin_Console_Passwd <your_custom_password>"
+        echo "Usage: change_ols_password <your_custom_password>"
         return 1
     fi
 
@@ -477,22 +477,16 @@ change_ols_password() {
     Webadmin_Pass="$1"
     echo "Using custom web admin password: ${Webadmin_Pass}"
 
-    # Check if the server edition is OpenLiteSpeed (OLS)
-    
-    PHP_Command="admin_php"
-   
-
     # Encrypt the custom password using OpenLiteSpeed's htpasswd.php script
-    Encrypt_string=$(/usr/local/lsws/admin/fcgi-bin/${PHP_Command} /usr/local/lsws/admin/misc/htpasswd.php "${Webadmin_Pass}")
+    Encrypt_string=$(/usr/local/lsws/admin/fcgi-bin/admin_php /usr/local/lsws/admin/misc/htpasswd.php "${Webadmin_Pass}")
     
     # Check if the encryption was successful
-    if [[ $? -ne 0 ]]; then
+    if [ $? -ne 0 ]; then
         echo "Error: Password encryption failed."
         return 1
     fi
 
     # Clear and update the htpasswd file with the new credentials
-    echo "" > /usr/local/lsws/admin/conf/htpasswd
     echo "admin:$Encrypt_string" > /usr/local/lsws/admin/conf/htpasswd
 
     # Set the appropriate ownership and permissions for the htpasswd file
@@ -500,13 +494,13 @@ change_ols_password() {
     chmod 600 /usr/local/lsws/admin/conf/htpasswd
     echo "Updated htpasswd file and set proper ownership/permissions."
 
-    # Save the custom password to /etc/cyberpanel/webadmin_passwd
+    # Save the custom password to a secure location
     echo "${Webadmin_Pass}" > /root/webadmin
     chmod 600 /root/webadmin
     echo "Saved the custom web admin password to /root/webadmin."
-
     return 0
 }
+
 copy_conf_for_ols() {
     # Define the source and target directories
     local SSL_SOURCE_DIR="/root/item/move/conf/ssl"
