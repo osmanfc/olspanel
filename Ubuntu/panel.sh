@@ -994,25 +994,69 @@ display_success_message() {
     echo "Password: ${DB_PASSWORDx}${NC}"
 }
 
+install_python_dependencies_in_venv() {
+wget -O ub24req.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/ub24req.txt"
+    echo "Installing Python dependencies from requirements.txt in a virtual environment..."
+
+    # Define the virtual environment name
+    VENV_DIR="venv"
+
+    # Create the virtual environment (if not already created)
+    if [ ! -d "$VENV_DIR" ]; then
+        echo "Creating virtual environment..."
+        python3 -m venv "$VENV_DIR"
+    else
+        echo "Virtual environment already exists."
+    fi
+
+    # Activate the virtual environment
+    echo "Activating virtual environment..."
+    source "$VENV_DIR/bin/activate"
+
+    # Upgrade pip and install dependencies
+    echo "Upgrading pip and installing packages..."
+    "$VENV_DIR/bin/python3" -m pip install --upgrade pip
+    "$VENV_DIR/bin/python3" -m pip install -r ub24req.txt
+
+    # Deactivate the virtual environment
+    echo "Deactivating virtual environment..."
+    deactivate
+
+    # Check if installation was successful
+    if [ $? -eq 0 ]; then
+        echo "Python dependencies installed successfully in the virtual environment."
+    
+    fi
+}
+
 install_python_dependencies() {
     echo "Installing Python dependencies from requirements.txt..."
+
+    # Check if pip3 is installed
     if command -v pip3 &> /dev/null; then
+        
+        # Get the Ubuntu version
+        UBUNTU_VERSION=$(lsb_release -rs | cut -d. -f1)
+
+        # If Ubuntu version is 24 or higher, use virtual environment
         if [ "$UBUNTU_VERSION" -ge 24 ]; then
-            source /root/venv/bin/activate
+            install_python_dependencies_in_venv
+        else
+            # For Ubuntu versions below 24, install packages using pip directly
+            echo "Ubuntu version is below 24. Installing packages directly using pip..."
+            pip install -r requirements.txt
         fi
-        pip install -r requirements.txt
+        
+        # Check if the installation was successful
         if [ $? -eq 0 ]; then
             echo "Python dependencies installed successfully."
         else
             echo "Failed to install Python dependencies. Exiting."
-            exit 1
-        fi
-        if [ "$UBUNTU_VERSION" -ge 24 ]; then
-            deactivate
+            # exit 1
         fi
     else
         echo "pip3 is not installed. Exiting."
-        exit 1
+       # exit 1
     fi
 }
 
