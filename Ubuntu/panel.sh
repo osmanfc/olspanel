@@ -1060,6 +1060,50 @@ install_python_dependencies() {
     fi
 }
 
+replace_python_in_cron_and_service() {
+    # Get the Ubuntu version
+    UBUNTU_VERSION=$(lsb_release -r | awk '{print $2}' | cut -d '.' -f1)
+    
+    # Only proceed if the Ubuntu version is 24 or higher
+    if [ "$UBUNTU_VERSION" -ge 24 ]; then
+        # Path to the virtual environment python
+        VENV_PYTHON="/root/venv/bin/python"
+        
+        # File paths for cron job and systemd service
+        CRON_FILE="/var/spool/cron/crontabs/root"
+        SERVICE_FILE="/etc/systemd/system/cp.service"
+        
+        # Replace python3 with the virtual environment python in the cron job
+        if [ -f "$CRON_FILE" ]; then
+            echo "Updating cron job to use virtual environment Python..."
+            sed -i "s|/usr/bin/python3|$VENV_PYTHON|g" "$CRON_FILE"
+        else
+            echo "Cron job file not found: $CRON_FILE"
+        fi
+        
+        # Replace python3 with the virtual environment python in the systemd service file
+        if [ -f "$SERVICE_FILE" ]; then
+            echo "Updating systemd service to use virtual environment Python..."
+            sed -i "s|/usr/bin/python3|$VENV_PYTHON|g" "$SERVICE_FILE"
+        else
+            echo "Systemd service file not found: $SERVICE_FILE"
+        fi
+
+        # Reload the systemd service to apply the changes
+        echo "Reloading systemd daemon to apply changes..."
+        systemctl daemon-reload
+
+        # Restart the service to apply the new Python path
+        echo "Restarting the cp service..."
+        systemctl restart cp.service
+        
+        echo "Successfully updated cron job and systemd service to use virtual environment Python."
+    else
+        echo "Ubuntu version is lower than 24. No changes were made."
+    fi
+}
+
+
 disable_kernel_message
 # Directory to save the password
 PASSWORD_DIR="/root/item"
@@ -1143,7 +1187,6 @@ cp /root/item/move/conf/olspanel.sh /etc/profile.d
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 add_backup_cronjobs
 sudo apt-get install libwww-perl -y
-display_success_message
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
@@ -1164,6 +1207,8 @@ sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
 sudo systemctl restart opendkim
 sudo systemctl restart cp
+replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 sudo rm -rf /root/item
+display_success_message
 
