@@ -68,6 +68,9 @@ install_mariadb() {
 
     echo "Installing MariaDB server and client..."
     sudo dnf install -y mariadb-server mariadb
+    sudo systemctl enable mariadb
+    sudo systemctl start mariadb
+
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
@@ -225,7 +228,8 @@ install_mail_and_ftp_server() {
    
 
     # Install Postfix and related packages
-    sudo dnf install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
+    #sudo dnf install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
+    sudo dnf install -y postfix postfix-mysql dovecot dovecot-mysql
 
 
     # Check if Postfix and Dovecot installation is successful
