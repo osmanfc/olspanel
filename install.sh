@@ -12,6 +12,10 @@ elif echo "$OUTPUT" | grep -q "Ubuntu 22.04"; then
     SERVER_OS="Ubuntu"
 elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     SERVER_OS="Ubuntu"
+elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
+    SERVER_OS="Ubuntu"
+elif echo "$OUTPUT" | grep -q "AlmaLinux 9"; then
+    SERVER_OS="Ubuntu"
 else
     echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
     exit 1
