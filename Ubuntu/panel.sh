@@ -507,6 +507,7 @@ copy_conf_for_ols() {
     local SSL_TARGET_DIR="/etc/letsencrypt/live/chandpurtelecom.xyz"
     local HTTPD_CONFIG_SOURCE="/root/item/move/conf/httpd_config.conf"
     local HTTPD_CONFIG_TARGET="/usr/local/lsws/conf/httpd_config.conf"
+    local SERVER_IP=$(curl -4 ifconfig.me)
 
     # Ensure the source SSL directory exists
     if [ ! -d "$SSL_SOURCE_DIR" ]; then
@@ -520,9 +521,11 @@ copy_conf_for_ols() {
         mkdir -p "$SSL_TARGET_DIR"
     fi
 
-    # Copy SSL files using rsync
-    echo "Copying SSL files from '$SSL_SOURCE_DIR' to '$SSL_TARGET_DIR'..."
-    rsync -av --progress "$SSL_SOURCE_DIR/" "$SSL_TARGET_DIR/"
+   
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+        -keyout "$SSL_TARGET_DIR/privkey.pem" -out "$SSL_TARGET_DIR/fullchain.pem" -subj "/CN=$SERVER_IP"
+	
+
 
     # Ensure the source httpd config file exists
     if [ ! -f "$HTTPD_CONFIG_SOURCE" ]; then
