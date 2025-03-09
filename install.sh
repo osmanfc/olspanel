@@ -6,16 +6,24 @@ OUTPUT=$(cat /etc/*release)
 
 if echo "$OUTPUT" | grep -q "Ubuntu 18.04"; then
     SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
 elif echo "$OUTPUT" | grep -q "Ubuntu 20.04"; then
     SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
 elif echo "$OUTPUT" | grep -q "Ubuntu 22.04"; then
     SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
 elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
 elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
     SERVER_OS="Ubuntu"
+    yum install curl wget -y
+    yum update curl wget ca-certificates -y
 elif echo "$OUTPUT" | grep -q "AlmaLinux 9"; then
     SERVER_OS="Ubuntu"
+    yum install curl wget -y
+    yum update curl wget ca-certificates -y
 else
     echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
     exit 1
@@ -23,7 +31,7 @@ fi
 
 echo -e "\nYour OS is $SERVER_OS\n"
 # Update system and install required packages
-sudo apt update -qq && sudo apt install -y -qq wget curl
+
 
 wget -O panel.sh "https://raw.githubusercontent.com/osmanfc/owpanel/main/$SERVER_OS/panel.sh"
 wget -O requirements.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/requirements.txt"
