@@ -2,12 +2,9 @@
 
 UBUNTU_VERSION=$(lsb_release -sr | cut -d. -f1)
 
-# Define OpenLiteSpeed service name based on Ubuntu version
-if [ "$UBUNTU_VERSION" -ge 24 ]; then
-    SYSTEMD_SERVICE="lshttpd"
-else
-    SYSTEMD_SERVICE="lsws"
-fi
+
+SYSTEMD_SERVICE="lsws"
+
 
 # Function to wait for the apt lock to be released
 wait_for_apt_lock() {
