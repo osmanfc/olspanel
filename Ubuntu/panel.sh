@@ -1096,7 +1096,7 @@ replace_python_in_cron_and_service() {
         # Restart the service to apply the new Python path
         echo "Restarting the cp service..."
         systemctl restart cp.service
-        
+        "$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
         echo "Successfully updated cron job and systemd service to use virtual environment Python."
     else
         echo "Ubuntu version is lower than 24. No changes were made."
