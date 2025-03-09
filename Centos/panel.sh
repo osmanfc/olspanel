@@ -1,7 +1,5 @@
 #!/bin/bash
 
-UBUNTU_VERSION=$(lsb_release -sr | cut -d. -f1)
-
 
 SYSTEMD_SERVICE="lsws"
 
