@@ -230,6 +230,8 @@ install_mail_and_ftp_server() {
     # Install Postfix and related packages
     #sudo dnf install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
     sudo dnf install -y postfix postfix-mysql dovecot dovecot-mysql
+sudo systemctl enable postfix
+sudo systemctl start postfix
 
 
     # Check if Postfix and Dovecot installation is successful
