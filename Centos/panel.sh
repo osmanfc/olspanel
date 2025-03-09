@@ -29,10 +29,9 @@ generate_mariadb_password() {
 install_pip() {
     echo "Updating system..."
     wait_for_apt_lock
-    sudo apt update && sudo apt upgrade -y
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo apt install python3 python3-venv python3-pip pkg-config libmysqlclient-dev -y
+    sudo dnf install -y python3 python3-venv python3-pip pkg-config mysql-devel
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
     if [ "$UBUNTU_VERSION" -ge 24 ]; then
@@ -68,7 +67,7 @@ install_mariadb() {
     fi
 
     echo "Installing MariaDB server and client..."
-    sudo apt update && sudo apt install -y mariadb-server mariadb-client
+    sudo dnf install -y mariadb-server mariadb
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
@@ -226,7 +225,8 @@ install_mail_and_ftp_server() {
    
 
     # Install Postfix and related packages
-    sudo apt-get install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
+    sudo dnf install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
+
 
     # Check if Postfix and Dovecot installation is successful
     if [ $? -ne 0 ]; then
@@ -235,7 +235,7 @@ install_mail_and_ftp_server() {
     fi
 
     # Install Dovecot SQLite backend
-    sudo apt-get install -y dovecot-sqlite dovecot-mysql
+    sudo dnf install -y dovecot-sqlite dovecot-mysql
 
     # Check if Dovecot SQLite installation is successful
     if [ $? -ne 0 ]; then
@@ -244,7 +244,7 @@ install_mail_and_ftp_server() {
     fi
 
     # Install Pure-FTPd MySQL support
-    sudo apt install -y pure-ftpd-mysql
+    sudo dnf install -y pure-ftpd-mysql
 
     # Check if Pure-FTPd installation is successful
     if [ $? -ne 0 ]; then
@@ -252,7 +252,7 @@ install_mail_and_ftp_server() {
         exit 1
     fi
     
-    sudo apt install opendkim opendkim-tools -y
+    sudo dnf install -y opendkim opendkim-tools
     echo "Mail server and FTP server installation completed successfully!"
 }
 
@@ -262,7 +262,7 @@ install_powerdns_and_mysql_backend() {
 
     # Install necessary packages
     
-    sudo apt install -y openssl pdns-server pdns-backend-mysql
+    sudo dnf install -y openssl pdns-server pdns-backend-mysql
 
     if [ $? -ne 0 ]; then
         echo "Failed to install necessary packages. Exiting."
@@ -385,7 +385,7 @@ generate_pureftpd_ssl_certificate() {
     # Check if OpenSSL is installed
     if ! command -v openssl &> /dev/null; then
         echo "OpenSSL is not installed. Installing it now..."
-        sudo apt install -y openssl
+        sudo dnf install -y openssl
         if [ $? -ne 0 ]; then
             echo "Failed to install OpenSSL. Exiting."
             return 1
@@ -444,7 +444,7 @@ install_openlitespeed() {
     echo "Installing OpenLiteSpeed Web Server on Ubuntu..."
     wget -O openlitespeed.sh https://repo.litespeed.sh
     sudo bash openlitespeed.sh
-    sudo apt install openlitespeed -y
+    sudo dnf install openlitespeed -y
     
     if command -v lswsctrl &> /dev/null; then
         echo "OpenLiteSpeed installed successfully."
@@ -582,7 +582,7 @@ install_zip_and_tar() {
     # Install zip if not already installed
     if ! command -v zip &> /dev/null; then
         echo "Installing zip..."
-        sudo apt install zip -y
+        sudo dnf install zip -y
     else
         echo "zip is already installed."
     fi
@@ -590,7 +590,7 @@ install_zip_and_tar() {
     # Install tar if not already installed
     if ! command -v tar &> /dev/null; then
         echo "Installing tar..."
-        sudo apt install tar -y
+        sudo dnf install tar -y
     else
         echo "tar is already installed."
     fi
@@ -861,18 +861,18 @@ install_all_lsphp_versions() {
     echo "Installing OpenLiteSpeed PHP versions 7.4 to 8.4..."
 
     # Install software-properties-common if not installed
-    sudo apt-get install -y software-properties-common
+    sudo dnf install -y software-properties-common
 
     # Add the OpenLiteSpeed PHP repository
-    sudo add-apt-repository -y ppa:openlitespeed/php
+    #sudo add-apt-repository -y ppa:openlitespeed/php
 
     # Update package lists
-    sudo apt-get update
+    #sudo apt-get update
 
     # Install PHP versions from 7.4 to 8.4
     for version in 74 80 81 82 83 84; do
         echo "Installing PHP $version..."
-        sudo apt-get install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
+        sudo dnf install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
@@ -1184,7 +1184,7 @@ cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 add_backup_cronjobs
-sudo apt-get install libwww-perl -y
+sudo dnf install libwww-perl -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
