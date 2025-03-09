@@ -18,12 +18,10 @@ elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     sudo apt update -qq && sudo apt install -y -qq wget curl
 elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
     SERVER_OS="Ubuntu"
-    yum install curl wget -y
-    yum update curl wget ca-certificates -y
+    sudo dnf update -y && sudo dnf install -y wget curl
 elif echo "$OUTPUT" | grep -q "AlmaLinux 9"; then
     SERVER_OS="Ubuntu"
-    yum install curl wget -y
-    yum update curl wget ca-certificates -y
+    sudo dnf update -y && sudo dnf install -y wget curl
 else
     echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
     exit 1
