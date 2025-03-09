@@ -1209,6 +1209,6 @@ sudo systemctl restart opendkim
 sudo systemctl restart cp
 replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
-sudo rm -rf /root/item
 display_success_message
+sudo rm -rf /root/item
 
