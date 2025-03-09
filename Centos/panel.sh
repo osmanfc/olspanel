@@ -237,7 +237,7 @@ sudo systemctl start postfix
     # Check if Postfix and Dovecot installation is successful
     if [ $? -ne 0 ]; then
         echo "Failed to install Postfix, Dovecot, or MariaDB. Exiting."
-        exit 1
+        return 1
     fi
 
     # Install Dovecot SQLite backend
@@ -246,7 +246,7 @@ sudo systemctl start postfix
     # Check if Dovecot SQLite installation is successful
     if [ $? -ne 0 ]; then
         echo "Failed to install Dovecot SQLite backend. Exiting."
-        exit 1
+        return 1
     fi
 
     # Install Pure-FTPd MySQL support
@@ -255,7 +255,7 @@ sudo systemctl start postfix
     # Check if Pure-FTPd installation is successful
     if [ $? -ne 0 ]; then
         echo "Failed to install Pure-FTPd. Exiting."
-        exit 1
+        return 1
     fi
     
     sudo dnf install -y opendkim opendkim-tools
@@ -272,7 +272,7 @@ install_powerdns_and_mysql_backend() {
 
     if [ $? -ne 0 ]; then
         echo "Failed to install necessary packages. Exiting."
-        exit 1
+        return 1
     fi
 
     # Configure permissions for pdns.conf
@@ -286,7 +286,7 @@ install_powerdns_and_mysql_backend() {
         echo "Permissions set for /etc/powerdns/pdns.conf successfully."
     else
         echo "Failed to set permissions for /etc/powerdns/pdns.conf."
-        exit 1
+        return 1
     fi
 
     echo "PowerDNS installation and configuration completed successfully!"
@@ -1056,11 +1056,11 @@ install_python_dependencies() {
             echo "Python dependencies installed successfully."
         else
             echo "Failed to install Python dependencies. Exiting."
-            # exit 1
+            # return 1
         fi
     else
         echo "pip3 is not installed. Exiting."
-       # exit 1
+       # return 1
     fi
 }
 
@@ -1119,7 +1119,7 @@ if [ ! -d "$PASSWORD_DIR" ]; then
     mkdir -p "$PASSWORD_DIR"
     if [ $? -ne 0 ]; then
         echo "Failed to create directory $PASSWORD_DIR. Exiting."
-        exit 1
+        return 1
     fi
     echo "Directory $PASSWORD_DIR created successfully."
 fi
@@ -1134,7 +1134,7 @@ if [ $? -eq 0 ]; then
     echo "Password saved to $PASSWORD_FILE."
 else
     echo "Failed to save password to $PASSWORD_FILE. Exiting."
-    exit 1
+    return 1
 fi
 
 # Set appropriate permissions for the password file
@@ -1143,7 +1143,7 @@ if [ $? -eq 0 ]; then
     echo "Permissions set for $PASSWORD_FILE."
 else
     echo "Failed to set permissions for $PASSWORD_FILE. Exiting."
-    exit 1
+    return 1
 fi
 install_zip_and_tar
 # Suppress "need restart" prompts
