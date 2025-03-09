@@ -999,7 +999,7 @@ wget -O ub24req.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/ub24
     echo "Installing Python dependencies from requirements.txt in a virtual environment..."
 
     # Define the virtual environment name
-    VENV_DIR="venv"
+    VENV_DIR="/root/venv"
 
     # Create the virtual environment (if not already created)
     if [ ! -d "$VENV_DIR" ]; then
