@@ -222,7 +222,7 @@ import_database() {
     echo "Importing database from '$DUMP_FILE' into '$DB_NAME'..."
 
     # Import the database
-    mysql -u root -p"${ROOT_PASSWORD}" "$DB_NAME" < "$DUMP_FILE"
+    mysql -u root -p"${ROOT_PASSWORD}" --force "$DB_NAME" < "$DUMP_FILE"
 
     if [ $? -eq 0 ]; then
         echo "Database imported successfully into '${DB_NAME}'."
