@@ -462,6 +462,9 @@ install_openlitespeed() {
 	getent passwd nobody
         getent group nogroup
 	sudo groupadd nogroup
+ getent group www-data
+sudo groupadd www-data
+
         sudo useradd -r -s /usr/sbin/nologin -g nogroup nobody
 
 
