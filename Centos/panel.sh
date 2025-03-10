@@ -31,7 +31,7 @@ install_pip() {
     wait_for_apt_lock
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo dnf install -y python3 python3-venv python3-pip pkg-config mysql-devel
+    sudo dnf install -y python3 python3-pip mysql-devel
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
     if [ "$UBUNTU_VERSION" -ge 24 ]; then
