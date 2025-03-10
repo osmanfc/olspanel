@@ -923,7 +923,7 @@ sudo dnf search lsphp
             echo "PHP $version installation failed."
         fi
     done
-
+sudo dnf install lsphp81-mbstring
     echo "All requested PHP versions installed."
 }
 
