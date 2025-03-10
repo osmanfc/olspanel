@@ -1091,7 +1091,7 @@ install_python_dependencies() {
         else
             # For Ubuntu versions below 24, install packages using pip directly
             echo "Ubuntu version is below 24. Installing packages directly using pip..."
-            pip install -r requirements.txt
+            pip3 install -r requirements.txt
         fi
         
         # Check if the installation was successful
