@@ -1094,6 +1094,8 @@ install_python_dependencies() {
             pip3 install -r requirements.txt
 	    pip3 install python-dotenv 
      pip3 install social-auth-app-django
+     pip3 install bcrypt
+
 
         fi
         
