@@ -459,6 +459,13 @@ install_openlitespeed() {
         sudo systemctl enable "$SYSTEMD_SERVICE"
         echo "Checking OpenLiteSpeed version..."
         sudo /usr/local/lsws/bin/lshttpd -v
+	getent passwd nobody
+        getent group nogroup
+	sudo groupadd nogroup
+        sudo useradd -r -s /usr/sbin/nologin -g nogroup nobody
+
+
+
     else
         echo "OpenLiteSpeed installation failed. Please check for errors."
         return 1
