@@ -31,7 +31,11 @@ install_pip() {
     wait_for_apt_lock
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo dnf install -y python3 python3-pip mysql-devel
+    sudo dnf groupinstall "Development Tools" -y
+    sudo dnf install -y python3
+    sudo dnf install -y python3-pip
+    sudo dnf install mysql-devel -y
+
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
     if [ "$UBUNTU_VERSION" -ge 24 ]; then
@@ -39,11 +43,12 @@ install_pip() {
         python3 -m venv /root/venv
         source /root/venv/bin/activate
     fi
-    
+    pip3 install setuptools-rust 
+    #pip3 install -r requirements.txt
     echo "Upgrading pip and setuptools..."
-    pip install --upgrade pip setuptools
+    pip3 install --upgrade pip setuptools
     echo "Installing mysqlclient..."
-    pip install --no-binary :all: mysqlclient
+    pip3 install --no-binary :all: mysqlclient
     
     if [ "$UBUNTU_VERSION" -ge 24 ]; then
         deactivate
