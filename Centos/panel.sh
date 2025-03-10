@@ -560,32 +560,59 @@ allow_ports() {
         return 1
     fi
 
-    echo "Allowing specified ports through UFW and iptables..."
+    echo "Allowing specified ports through UFW, iptables, and firewalld..."
 
-    # Allow each port through UFW and iptables
     for port in "$@"; do
-        # UFW rule
-        sudo ufw allow "$port/tcp"
-        echo "Allowed $port/tcp through UFW."
+        # UFW rule (if UFW is installed)
+        if command -v ufw &>/dev/null; then
+            sudo ufw allow "$port/tcp"
+            echo "Allowed $port/tcp through UFW."
+        fi
 
-        # iptables rule
-        sudo iptables -A INPUT -p tcp --dport "$port" -j ACCEPT
-        sudo iptables -A OUTPUT -p tcp --dport "$port" -j ACCEPT
-        echo "Allowed $port/tcp through iptables."
+        # iptables rule (if iptables is installed)
+        if command -v iptables &>/dev/null; then
+            sudo iptables -C INPUT -p tcp --dport "$port" -j ACCEPT 2>/dev/null || sudo iptables -A INPUT -p tcp --dport "$port" -j ACCEPT
+            sudo iptables -C OUTPUT -p tcp --dport "$port" -j ACCEPT 2>/dev/null || sudo iptables -A OUTPUT -p tcp --dport "$port" -j ACCEPT
+            echo "Allowed $port/tcp through iptables."
+        fi
+
+        # firewalld rule (if firewalld is active)
+        if systemctl is-active --quiet firewalld; then
+            sudo firewall-cmd --permanent --add-port="$port/tcp"
+            echo "Allowed $port/tcp through firewalld."
+        fi
     done
 
     # Special case for port range 40110-40210
-    sudo ufw allow 40110:40210/tcp
-    sudo iptables -A INPUT -p tcp --dport 40110:40210 -j ACCEPT
-    sudo iptables -A OUTPUT -p tcp --dport 40110:40210 -j ACCEPT
-    echo "Allowed 40110:40210/tcp through both UFW and iptables."
+    if command -v ufw &>/dev/null; then
+        sudo ufw allow 40110:40210/tcp
+        echo "Allowed 40110:40210/tcp through UFW."
+    fi
+    if command -v iptables &>/dev/null; then
+        sudo iptables -C INPUT -p tcp --dport 40110:40210 -j ACCEPT 2>/dev/null || sudo iptables -A INPUT -p tcp --dport 40110:40210 -j ACCEPT
+        sudo iptables -C OUTPUT -p tcp --dport 40110:40210 -j ACCEPT 2>/dev/null || sudo iptables -A OUTPUT -p tcp --dport 40110:40210 -j ACCEPT
+        echo "Allowed 40110:40210/tcp through iptables."
+    fi
+    if systemctl is-active --quiet firewalld; then
+        sudo firewall-cmd --permanent --add-port=40110-40210/tcp
+        echo "Allowed 40110-40210/tcp through firewalld."
+    fi
 
-    # Reload UFW to apply changes
-    sudo ufw reload
-    echo "UFW rules reloaded."
+    # Reload UFW if installed
+    if command -v ufw &>/dev/null; then
+        sudo ufw reload
+        echo "UFW rules reloaded."
+    fi
+
+    # Reload firewalld if active
+    if systemctl is-active --quiet firewalld; then
+        sudo firewall-cmd --reload
+        echo "Firewalld rules reloaded."
+    fi
 
     return 0
 }
+
 
 install_zip_and_tar() {
     # Update package list
