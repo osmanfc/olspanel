@@ -3,7 +3,7 @@ certifi
 cffi
 charset-normalizer
 defusedxml
-Django==4.1.2
+Django
 django-sslserver
 mysqlclient
 cryptography
