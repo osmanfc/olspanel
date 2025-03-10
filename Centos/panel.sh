@@ -65,7 +65,7 @@ install_rust
     pip3 install setuptools-rust 
     #pip3 install -r requirements.txt
     echo "Upgrading pip and setuptools..."
-    pip3 install --upgrade pip setuptools
+    pip3 install --upgrade pip
     echo "Installing mysqlclient..."
     pip3 install --no-binary :all: mysqlclient
     
