@@ -1093,6 +1093,8 @@ install_python_dependencies() {
             echo "Ubuntu version is below 24. Installing packages directly using pip..."
             pip3 install -r requirements.txt
 	    pip3 install python-dotenv 
+     pip3 install social-auth-app-django
+
         fi
         
         # Check if the installation was successful
