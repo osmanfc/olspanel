@@ -56,12 +56,7 @@ install_rust
     sudo dnf install mysql-devel -y
 
     
-    # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
-    if [ "$UBUNTU_VERSION" -ge 24 ]; then
-        echo "Creating virtual environment for Python dependencies..."
-        python3 -m venv /root/venv
-        source /root/venv/bin/activate
-    fi
+      
     pip3 install setuptools-rust 
     #pip3 install -r requirements.txt
     echo "Upgrading pip and setuptools..."
@@ -69,9 +64,7 @@ install_rust
     echo "Installing mysqlclient..."
     pip3 install --no-binary :all: mysqlclient
     
-    if [ "$UBUNTU_VERSION" -ge 24 ]; then
-        deactivate
-    fi
+   
     
     echo "Python and pip setup completed!"
 }
@@ -1082,13 +1075,7 @@ install_python_dependencies() {
     # Check if pip3 is installed
     if command -v pip3 &> /dev/null; then
         
-        # Get the Ubuntu version
-        UBUNTU_VERSION=$(lsb_release -rs | cut -d. -f1)
-
-        # If Ubuntu version is 24 or higher, use virtual environment
-        if [ "$UBUNTU_VERSION" -ge 24 ]; then
-            install_python_dependencies_in_venv
-        else
+       
             # For Ubuntu versions below 24, install packages using pip directly
             echo "Ubuntu version is below 24. Installing packages directly using pip..."
             pip3 install -r requirements.txt
@@ -1097,7 +1084,7 @@ install_python_dependencies() {
      pip3 install bcrypt
 
 
-        fi
+       
         
         # Check if the installation was successful
         if [ $? -eq 0 ]; then
@@ -1112,48 +1099,7 @@ install_python_dependencies() {
     fi
 }
 
-replace_python_in_cron_and_service() {
-    # Get the Ubuntu version
-    UBUNTU_VERSION=$(lsb_release -r | awk '{print $2}' | cut -d '.' -f1)
-    
-    # Only proceed if the Ubuntu version is 24 or higher
-    if [ "$UBUNTU_VERSION" -ge 24 ]; then
-        # Path to the virtual environment python
-        VENV_PYTHON="/root/venv/bin/python"
-        
-        # File paths for cron job and systemd service
-        CRON_FILE="/var/spool/cron/crontabs/root"
-        SERVICE_FILE="/etc/systemd/system/cp.service"
-        
-        # Replace python3 with the virtual environment python in the cron job
-        if [ -f "$CRON_FILE" ]; then
-            echo "Updating cron job to use virtual environment Python..."
-            sed -i "s|/usr/bin/python3|$VENV_PYTHON|g" "$CRON_FILE"
-        else
-            echo "Cron job file not found: $CRON_FILE"
-        fi
-        
-        # Replace python3 with the virtual environment python in the systemd service file
-        if [ -f "$SERVICE_FILE" ]; then
-            echo "Updating systemd service to use virtual environment Python..."
-            sed -i "s|/usr/bin/python3|$VENV_PYTHON|g" "$SERVICE_FILE"
-        else
-            echo "Systemd service file not found: $SERVICE_FILE"
-        fi
 
-        # Reload the systemd service to apply the changes
-        echo "Reloading systemd daemon to apply changes..."
-        systemctl daemon-reload
-
-        # Restart the service to apply the new Python path
-        echo "Restarting the cp service..."
-        systemctl restart cp.service
-        "$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
-        echo "Successfully updated cron job and systemd service to use virtual environment Python."
-    else
-        echo "Ubuntu version is lower than 24. No changes were made."
-    fi
-}
 
 
 disable_kernel_message
@@ -1259,7 +1205,6 @@ sudo systemctl restart dovecot
 sudo systemctl restart pure-ftpd-mysql
 sudo systemctl restart opendkim
 sudo systemctl restart cp
-replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 display_success_message
 sudo rm -rf /root/item
