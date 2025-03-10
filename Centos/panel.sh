@@ -901,7 +901,7 @@ copy_vhconf_to_example() {
 
 install_all_lsphp_versions() {
     echo "Installing OpenLiteSpeed PHP versions 7.4 to 8.4..."
-
+sudo dnf search lsphp
     # Install software-properties-common if not installed
     sudo dnf install -y software-properties-common
 
@@ -914,7 +914,7 @@ install_all_lsphp_versions() {
     # Install PHP versions from 7.4 to 8.4
     for version in 74 80 81 82 83 84; do
         echo "Installing PHP $version..."
-        sudo dnf install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
+        sudo dnf install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysqlnd
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
