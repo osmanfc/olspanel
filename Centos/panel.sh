@@ -3,6 +3,24 @@
 
 SYSTEMD_SERVICE="lsws"
 
+install_rust() {
+    echo "Installing Rust..."
+
+    # Install Rust using rustup
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+    # Follow the instructions for environment setup
+    echo "Please restart your shell or run: source ~/.bashrc"
+
+    # Check the Rust installation
+    if command -v rustc &> /dev/null; then
+        echo "Rust installed successfully!"
+        rustc --version
+    else
+        echo "Rust installation failed."
+    fi
+}
+
 
 # Function to wait for the apt lock to be released
 wait_for_apt_lock() {
@@ -27,6 +45,7 @@ generate_mariadb_password() {
 
 
 install_pip() {
+install_rust
     echo "Updating system..."
     wait_for_apt_lock
     echo "Installing Python..."
