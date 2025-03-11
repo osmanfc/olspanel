@@ -343,6 +343,9 @@ sudo systemctl start postfix
     
     sudo dnf install -y opendkim opendkim-tools
     echo "Mail server and FTP server installation completed successfully!"
+    sudo systemctl enable --now pure-ftpd
+sudo systemctl start pure-ftpd
+
 }
 
 install_powerdns_and_mysql_backend() {
