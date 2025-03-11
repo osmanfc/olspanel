@@ -459,7 +459,7 @@ if [ -f "/etc/pdns/pdns.conf" ]; then
     PDNS_DIR="pdns"
    cp /root/item/powerdns/pdns.conf /etc/pdns/pdns.conf
 fi
-   
+  find "/etc/pdns/pdns.conf" -type f -exec sed -i "s/%password%/$NEW_PASSWORD/g" {} \; 
 }
 
 generate_pureftpd_ssl_certificate() {
