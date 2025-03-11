@@ -864,7 +864,12 @@ set_ownership_and_permissions() {
 
 
 add_backup_cronjobs() {
-    local PYTHON_CMD=$(which python3)
+ if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
+        local PYTHON_CMD="/root/venv/bin/python3.12"
+    else
+        local PYTHON_CMD="/root/venv/bin/python3"
+    fi
+
     local BACKUP_SCRIPT="/usr/local/lsws/Example/html/mypanel/manage.py"
 
     # Define the cron jobs
