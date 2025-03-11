@@ -455,6 +455,11 @@ copy_files_and_replace_password() {
     # Set permissions
    # sudo chmod 640 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/privkey.pem
    # sudo chmod 644 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
+if [ -f "/etc/pdns/pdns.conf" ]; then
+    PDNS_DIR="pdns"
+   cp /root/item/powerdns/pdns.conf /etc/pdns/pdns.conf
+fi
+   
 }
 
 generate_pureftpd_ssl_certificate() {
