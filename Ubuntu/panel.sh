@@ -262,45 +262,31 @@ install_mail_and_ftp_server() {
 }
 
 install_powerdns_and_mysql_backend() {
-    echo "Detecting OS and Version..."
+    # Install OpenSSL and PowerDNS with MySQL backend
+    echo "Installing OpenSSL, PowerDNS, and PowerDNS MySQL backend..."
+
+    # Install necessary packages
     
-    if [[ "$OS_NAME" == "centos" || "$OS_NAME" == "almalinux" ]]; then
-        if [[ "$OS_VERSION" == "7" ]]; then
-            e
-            PKG_MANAGER="yum"
-            sudo yum install -y epel-release
-            sudo curl -o /etc/yum.repos.d/powerdns-auth-43.repo https://olspanel.com/repo-files/centos-auth-43.repo
-			sudo $PKG_MANAGER install -y openssl pdns pdns-backend-mysql
-        elif [[ "$OS_VERSION" == "8" ]]; then
-            PKG_MANAGER="dnf"
-            sudo curl -o /etc/yum.repos.d/powerdns-auth-43.repo https://olspanel.com/repo-files/centos-auth-43.repo
-			sudo $PKG_MANAGER install -y openssl pdns pdns-backend-mysql
-        else
-             sudo dnf install -y openssl pdns-server pdns-backend-mysql
-            
-        fi
-    else
-        sudo dnf install -y openssl pdns-server pdns-backend-mysql
+    sudo apt install -y openssl pdns-server pdns-backend-mysql
+
+    if [ $? -ne 0 ]; then
+        echo "Failed to install necessary packages. Exiting."
+        exit 1
     fi
 
-    echo "Installing OpenSSL, PowerDNS, and PowerDNS MySQL backend..."
-    
-    systemctl start pdns
-    systemctl enable pdns
-
-   
-
+    # Configure permissions for pdns.conf
     echo "Configuring permissions for /etc/powerdns/pdns.conf..."
-	if [ -f "/etc/pdns/pdns.conf" ]; then
-    PDNS_DIR="pdns"
-elif [ -f "/etc/powerdns/pdns.conf" ]; then
-    PDNS_DIR="powerdns"
-else
-    echo "PowerDNS configuration file not found!"
-    
-fi
-    sudo chmod 644 /etc/${PDNS_DIR}/pdns.conf
-    sudo chown pdns:pdns /etc/${PDNS_DIR}/pdns.conf
+
+    # Set correct permissions for PowerDNS configuration file
+    sudo chmod 644 /etc/powerdns/pdns.conf
+    sudo chown pdns:pdns /etc/powerdns/pdns.conf
+
+    if [ $? -eq 0 ]; then
+        echo "Permissions set for /etc/powerdns/pdns.conf successfully."
+    else
+        echo "Failed to set permissions for /etc/powerdns/pdns.conf."
+        exit 1
+    fi
 
     echo "PowerDNS installation and configuration completed successfully!"
 }
