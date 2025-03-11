@@ -7,7 +7,8 @@ install_rust() {
     echo "Installing Rust..."
 
     # Install Rust using rustup
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
 
     # Follow the instructions for environment setup
     echo "Please restart your shell or run: source ~/.bashrc"
@@ -19,6 +20,31 @@ install_rust() {
     else
         echo "Rust installation failed."
     fi
+}
+
+install_pip2() {
+install_rust
+    echo "Installing Python dependencies..."
+
+    # Install necessary repositories for Python 3.12
+    sudo dnf install -y epel-release
+    sudo dnf install -y dnf-utils
+    sudo dnf config-manager --set-enabled powertools
+    sudo dnf install -y python3.12 python3.12-pip
+
+    # Install development tools
+    sudo dnf groupinstall "Development Tools" -y
+	sudo dnf install python3.12-devel -y
+
+    sudo dnf install mysql-devel -y
+
+    # Upgrade pip
+    python3.12 -m pip install --upgrade pip
+
+    # Install setuptools-rust for rust-based Python packages
+    python3.12 -m pip install setuptools-rust
+
+    echo "Python 3.12 and pip setup completed!"
 }
 
 
