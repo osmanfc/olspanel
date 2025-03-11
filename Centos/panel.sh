@@ -100,6 +100,10 @@ echo "Installing Python on ${OS_NAME} version ${OS_VERSION}  dependencies...${py
     wget -O ub24req.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/ub24req.txt"
 
     VENV_DIR="/root/venv"
+	if [ -d "$VENV_DIR" ]; then
+        rm -rf "$VENV_DIR"
+    fi
+	
     if [ ! -d "$VENV_DIR" ]; then
         "${python}" -m venv "$VENV_DIR"
     fi
