@@ -225,6 +225,8 @@ EOF
 }
 
 get_password_from_file() {
+sudo dnf install -y rsync
+
     local password_file="$1"
 
     # Check if the file exists
