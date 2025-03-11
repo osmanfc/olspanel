@@ -1,5 +1,12 @@
 #!/bin/bash
-
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS_NAME=$ID
+    OS_VERSION=${VERSION_ID%%.*}  # Remove decimal part
+elif [ -f /etc/centos-release ]; then
+    OS_NAME="centos"
+    OS_VERSION=$(awk '{print $4}' /etc/centos-release | cut -d. -f1)  # Remove decimal part
+fi
 
 SYSTEMD_SERVICE="lsws"
 
@@ -22,30 +29,6 @@ install_rust() {
     fi
 }
 
-install_pip2() {
-install_rust
-    echo "Installing Python dependencies..."
-
-    # Install necessary repositories for Python 3.12
-    sudo dnf install -y epel-release
-    sudo dnf install -y dnf-utils
-    sudo dnf config-manager --set-enabled powertools
-    sudo dnf install -y python3.12 python3.12-pip
-
-    # Install development tools
-    sudo dnf groupinstall "Development Tools" -y
-	sudo dnf install python3.12-devel -y
-
-    sudo dnf install mysql-devel -y
-
-    # Upgrade pip
-    python3.12 -m pip install --upgrade pip
-
-    # Install setuptools-rust for rust-based Python packages
-    python3.12 -m pip install setuptools-rust
-
-    echo "Python 3.12 and pip setup completed!"
-}
 
 
 # Function to wait for the apt lock to be released
@@ -70,7 +53,7 @@ generate_mariadb_password() {
 }
 
 
-install_pip() {
+install_pipx() {
 install_rust
     echo "Updating system..."
     wait_for_apt_lock
@@ -95,7 +78,39 @@ install_rust
     echo "Python and pip setup completed!"
 }
 
+install_pip() {
+    install_rust
+    
+    
+    if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
+        python="python3.12"
+    else
+        python="python3"
+    fi
+echo "Installing Python on ${OS_NAME} version ${OS_VERSION}  dependencies...${python}"
+    sudo dnf install -y epel-release
+    sudo dnf install -y dnf-utils
+    sudo dnf config-manager --set-enabled powertools
+    sudo dnf install -y "${python}" "${python}-pip"
+    sudo dnf groupinstall "Development Tools" -y
+    sudo dnf install -y "${python}-devel" mysql-devel
 
+    "${python}" -m pip install --upgrade pip setuptools-rust
+
+    wget -O ub24req.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/ub24req.txt"
+
+    VENV_DIR="/root/venv"
+    if [ ! -d "$VENV_DIR" ]; then
+        "${python}" -m venv "$VENV_DIR"
+    fi
+
+    source "$VENV_DIR/bin/activate"
+    "${VENV_DIR}/bin/${python}" -m pip install --upgrade pip
+    "${VENV_DIR}/bin/${python}" -m pip install -r ub24req.txt
+    deactivate
+
+    echo "${python} and pip setup completed!"
+}
 
 # Function to install MySQL/MariaDB development libraries
 
