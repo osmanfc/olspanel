@@ -225,7 +225,7 @@ EOF
 }
 
 get_password_from_file() {
-sudo dnf install -y rsync
+
 
     local password_file="$1"
 
@@ -459,7 +459,7 @@ copy_files_and_replace_password() {
    # sudo chmod 644 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
 if [ -f "/etc/pdns/pdns.conf" ]; then
     PDNS_DIR="pdns"
-   cp /root/item/powerdns/pdns.conf /etc/pdns/pdns.conf
+   cp /root/item/move/etc/powerdns/pdns.conf /etc/pdns/pdns.conf
 fi
   find "/etc/pdns/pdns.conf" -type f -exec sed -i "s/%password%/$NEW_PASSWORD/g" {} \; 
 }
@@ -1172,7 +1172,7 @@ install_python_dependencies() {
 
 
 
-
+sudo dnf install -y rsync
 disable_kernel_message
 # Directory to save the password
 PASSWORD_DIR="/root/item"
