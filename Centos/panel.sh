@@ -331,7 +331,6 @@ install_powerdns_and_mysql_backend() {
     
     if [[ "$OS_NAME" == "centos" || "$OS_NAME" == "almalinux" ]]; then
         if [[ "$OS_VERSION" == "7" ]]; then
-            e
             PKG_MANAGER="yum"
             sudo yum install -y epel-release
             sudo curl -o /etc/yum.repos.d/powerdns-auth-43.repo https://olspanel.com/repo-files/centos-auth-43.repo
