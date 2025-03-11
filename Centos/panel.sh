@@ -281,6 +281,25 @@ import_database() {
 
 
 install_mail_and_ftp_server() {
+if [[ "$OS_NAME" == "centos" || "$OS_NAME" == "almalinux" ]]; then
+    if [[ "$OS_VERSION" == "7" ]]; then
+        PKG_MANAGER="yum"
+        sudo yum install -y epel-release
+
+    elif [[ "$OS_VERSION" == "8" || "$OS_VERSION" == "9" ]]; then
+        PKG_MANAGER="dnf"
+        sudo dnf install -y epel-release
+    else
+        echo "Unsupported OS version: $OS_VERSION"
+        
+    fi
+
+    echo "Using package manager: $PKG_MANAGER"
+else
+    echo "Unsupported OS: $OS_NAME"
+   
+fi
+
     # Configure Postfix to automatically choose 'Internet site' option during installation
     echo "postfix postfix/mailname string example.com" | sudo debconf-set-selections
     echo "postfix postfix/main_mailer_type string 'Internet Site'" | sudo debconf-set-selections
@@ -314,7 +333,7 @@ sudo systemctl start postfix
     fi
 
     # Install Pure-FTPd MySQL support
-    sudo dnf install -y pure-ftpd-mysql
+    sudo dnf install -y pure-ftpd
 
     # Check if Pure-FTPd installation is successful
     if [ $? -ne 0 ]; then
