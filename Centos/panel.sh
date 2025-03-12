@@ -558,6 +558,45 @@ check_and_reboot() {
     fi
 }
 
+setup_nobody_nogroup() {
+    # Check if 'nobody' user exists
+    if ! getent passwd nobody > /dev/null; then
+        echo "Creating 'nobody' user..."
+        sudo useradd -r -s /usr/sbin/nologin -g nogroup nobody
+    else
+        echo "'nobody' user already exists."
+    fi
+
+    # Check if 'nogroup' group exists
+    if ! getent group nogroup > /dev/null; then
+        echo "Creating 'nogroup' group..."
+        sudo groupadd nogroup
+    else
+        echo "'nogroup' group already exists."
+    fi
+
+    # Ensure 'nobody' user has UID 99 and 'nogroup' has GID 99
+    echo "Ensuring 'nobody' user has UID 99 and 'nogroup' has GID 99..."
+    sudo usermod -u 99 nobody
+    sudo groupmod -g 99 nogroup
+
+    # Update OpenLiteSpeed configuration to use 'nobody' and 'nogroup'
+    CONFIG_FILE="/usr/local/lsws/conf/httpd_config.conf"
+
+    if [ -f "$CONFIG_FILE" ]; then
+        echo "Updating OpenLiteSpeed configuration..."
+        sudo sed -i 's/^user .*/user nobody/' $CONFIG_FILE
+        sudo sed -i 's/^group .*/group nogroup/' $CONFIG_FILE
+    else
+        echo "OpenLiteSpeed configuration file not found at $CONFIG_FILE. Please check the path."
+    fi
+
+    # Restart OpenLiteSpeed to apply changes
+    echo "Restarting OpenLiteSpeed..."
+    sudo /usr/local/lsws/bin/lswsctrl restart
+
+    echo "Setup complete."
+}
 
 install_openlitespeed() {
     local NEW_ADMIN_USERNAME="admin"   # Default admin username
@@ -575,20 +614,16 @@ install_openlitespeed() {
         sudo systemctl enable "$SYSTEMD_SERVICE"
         echo "Checking OpenLiteSpeed version..."
         sudo /usr/local/lsws/bin/lshttpd -v
-	getent passwd nobody
-        getent group nogroup
-	sudo groupadd nogroup
- getent group www-data
-sudo groupadd www-data
-
-        sudo useradd -r -s /usr/sbin/nologin -g nogroup nobody
-
+	
 
 
     else
         echo "OpenLiteSpeed installation failed. Please check for errors."
         return 1
     fi
+
+
+    setup_nobody_nogroup
 }
 
 
