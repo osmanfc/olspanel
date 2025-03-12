@@ -137,7 +137,7 @@ install_mariadb() {
 
     if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
         echo "Error: No password provided for root user. Skipping this task."
-        return 1  # Skip task and continue with the script
+          # Skip task and continue with the script
     fi
 
     echo "Installing MariaDB server and client..."
@@ -148,7 +148,7 @@ install_mariadb() {
 
     if [ $? -ne 0 ]; then
         echo "Failed to install MariaDB. Skipping this task."
-        return 1  # Skip task and continue with the script
+          # Skip task and continue with the script
     fi
 
     echo "Securing MariaDB installation..."
@@ -165,7 +165,7 @@ EOF
 
     if [ $? -ne 0 ]; then
         echo "Failed to secure MariaDB installation. Skipping this task."
-        return 1  # Skip task and continue with the script
+          # Skip task and continue with the script
     fi
 
     echo "MariaDB installation and root password configuration completed successfully."
@@ -178,7 +178,7 @@ change_mysql_root_password() {
 
     if [ -z "$NEW_PASSWORD" ]; then
         echo "Usage: change_mysql_root_password <new_password>"
-        return 1
+        
     fi
 
     # Run the SQL command to change the root password
@@ -189,7 +189,7 @@ change_mysql_root_password() {
     # Check for errors
     if echo "$OUTPUT" | grep -qE "ERROR|Access denied|authentication failure|wrong password"; then
         echo "Error: Failed to change the root password. Skipping to next task..."
-        return 1  # Continue to the next task in a script
+          # Continue to the next task in a script
     fi
 
     echo "MariaDB root password changed successfully."
@@ -205,7 +205,7 @@ create_database_and_user() {
     # Check if all required arguments are provided
     if [ -z "$ROOT_PASSWORD" ] || [ -z "$DB_NAME" ] || [ -z "$DB_USER" ]; then
         echo "Usage: create_database_and_user <root_password> <database_name> <username>"
-        return 1
+        
     fi
 
     # Generate a random password for the new user
@@ -232,7 +232,7 @@ EOF
        
     else
         echo "Failed to create database or user. Please check the MariaDB server status and root password."
-        return 1
+        
     fi
 }
 
@@ -244,7 +244,7 @@ get_password_from_file() {
     # Check if the file exists
     if [ ! -f "$password_file" ]; then
         echo "Error: File $password_file does not exist." >&2
-        return 1
+        
     fi
 
     # Read the password from the file
@@ -254,7 +254,7 @@ get_password_from_file() {
     # Check if the password is empty
     if [ -z "$password" ]; then
         echo "Error: File $password_file is empty." >&2
-        return 1
+        
     fi
 
     # Return the password
@@ -269,13 +269,13 @@ import_database() {
     # Check if all required arguments are provided
     if [ -z "$ROOT_PASSWORD" ] || [ -z "$DB_NAME" ] || [ -z "$DUMP_FILE" ]; then
         echo "Usage: import_database <root_password> <database_name> <dump_file>"
-        return 1
+        
     fi
 
     # Check if the dump file exists
     if [ ! -f "$DUMP_FILE" ]; then
         echo "Error: Dump file '$DUMP_FILE' does not exist."
-        return 1
+        
     fi
 
     echo "Importing database from '$DUMP_FILE' into '$DB_NAME'..."
@@ -287,7 +287,7 @@ import_database() {
         echo "Database imported successfully into '${DB_NAME}'."
     else
         echo "Failed to import the database. Please check the root password, database name, and dump file."
-        return 1
+        
     fi
 }
 
@@ -328,30 +328,15 @@ fi
 sudo systemctl enable postfix
 sudo systemctl start postfix
 
-
-    # Check if Postfix and Dovecot installation is successful
-    if [ $? -ne 0 ]; then
-        echo "Failed to install Postfix, Dovecot, or MariaDB. Exiting."
-        return 1
-    fi
-
     # Install Dovecot SQLite backend
     sudo ${PACKAGE_MANAGER} install -y dovecot-sqlite dovecot-mysql
 
-    # Check if Dovecot SQLite installation is successful
-    if [ $? -ne 0 ]; then
-        echo "Failed to install Dovecot SQLite backend. Exiting."
-        return 1
-    fi
+   
 
     # Install Pure-FTPd MySQL support
     sudo ${PACKAGE_MANAGER} install -y pure-ftpd
 
-    # Check if Pure-FTPd installation is successful
-    if [ $? -ne 0 ]; then
-        echo "Failed to install Pure-FTPd. Exiting."
-        return 1
-    fi
+   
     
     sudo ${PACKAGE_MANAGER} install -y opendkim opendkim-tools
     echo "Mail server and FTP server installation completed successfully!"
@@ -411,13 +396,13 @@ copy_files_and_replace_password() {
     # Check if all required arguments are provided
     if [ -z "$SOURCE_DIR" ] || [ -z "$TARGET_DIR" ] || [ -z "$NEW_PASSWORD" ]; then
         echo "Usage: copy_files_and_replace_password <source_directory> <target_directory> <new_password>"
-        return 1
+        
     fi
 
     # Ensure the source directory exists
     if [ ! -d "$SOURCE_DIR" ]; then
         echo "Source directory '$SOURCE_DIR' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Ensure the target directory exists, create it if it doesn't
@@ -440,7 +425,7 @@ copy_files_and_replace_password() {
         echo "Password replacement completed in files."
     else
         echo "Failed to copy files. Exiting."
-        return 1
+       
     fi
     # Create vmail group and user
     echo "Setting up 'vmail' group and user..."
@@ -510,7 +495,7 @@ generate_pureftpd_ssl_certificate() {
         sudo ${PACKAGE_MANAGER} install -y openssl
         if [ $? -ne 0 ]; then
             echo "Failed to install OpenSSL. Exiting."
-            return 1
+           
         fi
     else
         echo "OpenSSL is already installed."
@@ -535,7 +520,7 @@ generate_pureftpd_ssl_certificate() {
         echo "Permissions for $CERT_PATH set to 600."
     else
         echo "Failed to generate the SSL certificate. Please check the OpenSSL configuration."
-        return 1
+       
     fi
 }
 # Function to suppress "need restart" prompts
@@ -627,7 +612,7 @@ install_openlitespeed() {
 
     else
         echo "OpenLiteSpeed installation failed. Please check for errors."
-        return 1
+        
     fi
 
 
@@ -641,7 +626,7 @@ change_ols_password() {
     if [ -z "$1" ]; then
         echo "Error: No password provided."
         echo "Usage: change_ols_password <your_custom_password>"
-        return 1
+        
     fi
 
     # Store the custom password
@@ -654,7 +639,7 @@ change_ols_password() {
     # Check if the encryption was successful
     if [ $? -ne 0 ]; then
         echo "Error: Password encryption failed."
-        return 1
+        
     fi
 
     # Clear and update the htpasswd file with the new credentials
@@ -683,7 +668,7 @@ copy_conf_for_ols() {
     # Ensure the source SSL directory exists
     if [ ! -d "$SSL_SOURCE_DIR" ]; then
         echo "Source SSL directory '$SSL_SOURCE_DIR' does not exist. Exiting."
-        return 1
+       
     fi
 
     # Ensure the target SSL directory exists, create it if it doesn't
@@ -701,7 +686,7 @@ copy_conf_for_ols() {
     # Ensure the source httpd config file exists
     if [ ! -f "$HTTPD_CONFIG_SOURCE" ]; then
         echo "Source httpd config file '$HTTPD_CONFIG_SOURCE' does not exist. Exiting."
-        return 1
+       
     fi
 
     # Copy the httpd config file
@@ -728,7 +713,7 @@ sudo ufw enable
 
     if [ $# -eq 0 ]; then
         echo "Error: No ports specified."
-        return 1
+        
     fi
 
     echo "Allowing specified ports through UFW and iptables..."
@@ -789,7 +774,7 @@ install_acme_sh() {
     # Check if the email parameter is provided
     if [ -z "$email" ]; then
         echo "Usage: install_acme_sh <email>"
-        return 1
+        
     fi
 
     # Install acme.sh using the provided email
@@ -801,7 +786,7 @@ install_acme_sh() {
         echo "acme.sh installed successfully!"
     else
         echo "acme.sh installation failed."
-        return 1
+        
     fi
 }
 
@@ -816,7 +801,7 @@ unzip_and_move() {
     # Ensure the zip file exists
     if [ ! -f "$zip_file" ]; then
         echo "Zip file '$zip_file' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Ensure the target directory exists, create it if it doesn't
@@ -836,7 +821,7 @@ unzip_and_move() {
     unzip -o "$zip_file" -d "$extract_dir"
     if [ $? -ne 0 ]; then
         echo "Failed to unzip '$zip_file'. Exiting."
-        return 1
+        
     fi
 
     # Move all extracted files to the target directory
@@ -856,7 +841,7 @@ setup_cp_service_with_port() {
     # Ensure the service file exists
     if [ ! -f "$service_file" ]; then
         echo "Service file '$service_file' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Generate a random 4-digit port between 1000 and 9999
@@ -867,7 +852,7 @@ setup_cp_service_with_port() {
     echo "$new_port" > "$port_file"
     if [ $? -ne 0 ]; then
         echo "Failed to save the port to '$port_file'. Exiting."
-        return 1
+        
     fi
 
     # Replace the old port (2083) in the existing service file
@@ -875,7 +860,7 @@ setup_cp_service_with_port() {
     sed -i "s/2083/$new_port/g" "$httpd_file"
     if [ $? -ne 0 ]; then
         echo "Failed to update the port in the service file. Exiting."
-        return 1
+        
     fi
 
     # Copy the updated service file to the systemd directory
@@ -883,7 +868,7 @@ setup_cp_service_with_port() {
     cp "$service_file" "$target_file"
     if [ $? -ne 0 ]; then
         echo "Failed to copy the service file. Exiting."
-        return 1
+        
     fi
 
     # Reload systemd daemon to recognize the updated service
@@ -895,7 +880,7 @@ setup_cp_service_with_port() {
     sudo systemctl start cp
     if [ $? -ne 0 ]; then
         echo "Failed to start 'cp' service. Exiting."
-        return 1
+        
     fi
 
     # Enable the service to start on boot
@@ -903,7 +888,7 @@ setup_cp_service_with_port() {
     sudo systemctl enable cp
     if [ $? -ne 0 ]; then
         echo "Failed to enable 'cp' service. Exiting."
-        return 1
+        
     fi
 	
     allow_ports $new_port
@@ -918,7 +903,7 @@ copy_mysql_password() {
     # Ensure the source file exists
     if [ ! -f "$source_file" ]; then
         echo "Source file '$source_file' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Ensure the target directory exists, create it if it doesn't
@@ -927,7 +912,7 @@ copy_mysql_password() {
         mkdir -p "$target_dir"
         if [ $? -ne 0 ]; then
             echo "Failed to create target directory '$target_dir'. Exiting."
-            return 1
+            
         fi
     fi
 
@@ -936,7 +921,7 @@ copy_mysql_password() {
     cp "$source_file" "$target_file"
     if [ $? -ne 0 ]; then
         echo "Failed to copy '$source_file' to '$target_file'. Exiting."
-        return 1
+        
     fi
 	sudo systemctl restart cp
 
@@ -993,7 +978,7 @@ remove_files_in_html_folder() {
     # Check if the target directory exists
     if [ ! -d "$target_dir" ]; then
         echo "Directory '$target_dir' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Loop through the files to remove and delete them
@@ -1004,7 +989,7 @@ remove_files_in_html_folder() {
             rm -f "$file_path"
             if [ $? -ne 0 ]; then
                 echo "Failed to remove '$file_path'. Exiting."
-                return 1
+                
             fi
         else
             echo "File '$file_path' does not exist."
@@ -1022,7 +1007,7 @@ copy_vhconf_to_example() {
     # Ensure the source file exists
     if [ ! -f "$source_file" ]; then
         echo "Source file '$source_file' does not exist. Exiting."
-        return 1
+        
     fi
 
     # Ensure the target directory exists
@@ -1031,7 +1016,7 @@ copy_vhconf_to_example() {
         mkdir -p "$target_dir"
         if [ $? -ne 0 ]; then
             echo "Failed to create target directory '$target_dir'. Exiting."
-            return 1
+            
         fi
     fi
 
@@ -1040,7 +1025,7 @@ copy_vhconf_to_example() {
     cp "$source_file" "$target_file"
     if [ $? -ne 0 ]; then
         echo "Failed to copy the file. Exiting."
-        return 1
+        
     fi
    mkdir -p /usr/local/lsws/conf/vhosts/mypanel 
    cp /root/item/move/conf/mypanel/vhconf.conf /usr/local/lsws/conf/vhosts/mypanel/vhconf.conf
@@ -1253,11 +1238,11 @@ install_python_dependencies() {
             echo "Python dependencies installed successfully."
         else
             echo "Failed to install Python dependencies. Exiting."
-            # return 1
+            # 
         fi
     else
         echo "pip3 is not installed. Exiting."
-       # return 1
+       # 
     fi
 }
 
@@ -1279,7 +1264,7 @@ replace_python_in_service() {
         sed -i "s|/usr/bin/python3|$PYTHON_CMD|g" "$SERVICE_FILE"
     else
         echo "Systemd service file not found: $SERVICE_FILE"
-        return 1
+        
     fi
 
     # Reload the systemd service to apply the changes
@@ -1301,7 +1286,7 @@ if [ ! -d "$PASSWORD_DIR" ]; then
     mkdir -p "$PASSWORD_DIR"
     if [ $? -ne 0 ]; then
         echo "Failed to create directory $PASSWORD_DIR. Exiting."
-        return 1
+        
     fi
     echo "Directory $PASSWORD_DIR created successfully."
 fi
@@ -1316,7 +1301,7 @@ if [ $? -eq 0 ]; then
     echo "Password saved to $PASSWORD_FILE."
 else
     echo "Failed to save password to $PASSWORD_FILE. Exiting."
-    return 1
+    
 fi
 
 # Set appropriate permissions for the password file
@@ -1325,7 +1310,7 @@ if [ $? -eq 0 ]; then
     echo "Permissions set for $PASSWORD_FILE."
 else
     echo "Failed to set permissions for $PASSWORD_FILE. Exiting."
-    return 1
+    
 fi
 install_zip_and_tar
 # Suppress "need restart" prompts
