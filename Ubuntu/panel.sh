@@ -9,6 +9,15 @@ else
     SYSTEMD_SERVICE="lsws"
 fi
 
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS_NAME=$ID
+    OS_VERSION=${VERSION_ID%%.*}  # Remove decimal part
+elif [ -f /etc/centos-release ]; then
+    OS_NAME="centos"
+    OS_VERSION=$(awk '{print $4}' /etc/centos-release | cut -d. -f1)  # Remove decimal part
+fi
+
 # Function to wait for the apt lock to be released
 wait_for_apt_lock() {
     while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
@@ -1151,7 +1160,8 @@ sudo mkdir -p /root/item
 wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/olspanel/main/item/install" 2>/dev/null
 unzip /root/item/install.zip -d /root/item/
 #rm /root/item/install.zip
-
+echo "$OS_NAME" > /root/item/etc/osName
+echo "$OS_VERSION" > /root/item/etc/osVersion
 # Install Python and pip if not already installed
 install_pip
 
