@@ -709,7 +709,7 @@ sudo systemctl disable firewalld
 sudo systemctl mask firewalld
 sudo systemctl enable ufw
 sudo systemctl start ufw
-sudo ufw enable
+echo "y" | sudo ufw enable
 
     if [ $# -eq 0 ]; then
         echo "Error: No ports specified."
