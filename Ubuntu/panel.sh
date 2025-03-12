@@ -1160,8 +1160,8 @@ sudo mkdir -p /root/item
 wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/olspanel/main/item/install" 2>/dev/null
 unzip /root/item/install.zip -d /root/item/
 #rm /root/item/install.zip
-echo "$OS_NAME" > /root/item/etc/osName
-echo "$OS_VERSION" > /root/item/etc/osVersion
+echo "$OS_NAME" > /usr/local/lsws/Example/html/mypanel/etc//osName
+echo "$OS_VERSION" > /usr/local/lsws/Example/html/mypanel/etc/osVersion
 # Install Python and pip if not already installed
 install_pip
 
