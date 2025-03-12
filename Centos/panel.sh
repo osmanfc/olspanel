@@ -1217,7 +1217,33 @@ install_python_dependencies() {
     fi
 }
 
+replace_python_in_service() {
+    # Get the Ubuntu version
+       
+    if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
+        local PYTHON_CMD="/root/venv/bin/python3.12"
+    else
+        local PYTHON_CMD="/root/venv/bin/python3"
+    fi
 
+    # File path for the systemd service
+    SERVICE_FILE="/etc/systemd/system/cp.service"
+    
+    # Replace python3 with the virtual environment Python in the systemd service file
+    if [ -f "$SERVICE_FILE" ]; then
+        echo "Updating systemd service to use virtual environment Python..."
+        sed -i "s|/usr/bin/python3|$PYTHON_CMD|g" "$SERVICE_FILE"
+    else
+        echo "Systemd service file not found: $SERVICE_FILE"
+        return 1
+    fi
+
+    # Reload the systemd service to apply the changes
+    echo "Reloading systemd daemon to apply changes..."
+    systemctl daemon-reload
+
+    echo "Successfully updated systemd service to use virtual environment Python."
+}
 
 sudo ${PACKAGE_MANAGER} install -y rsync
 disable_kernel_message
@@ -1322,6 +1348,7 @@ sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
 sudo sed -i 's|/usr/lib/postfix|/usr/libexec/postfix|g' /etc/postfix/main.cf
+replace_python_in_service
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
