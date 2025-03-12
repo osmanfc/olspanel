@@ -597,7 +597,15 @@ setup_nobody_nogroup() {
 
     echo "Setup complete."
 }
-
+setup_www_data_group() {
+    # Check if 'www-data' group exists
+    if ! getent group www-data > /dev/null; then
+        echo "Creating 'www-data' group..."
+        sudo groupadd www-data
+    else
+        echo "'www-data' group already exists."
+    fi
+}
 install_openlitespeed() {
     local NEW_ADMIN_USERNAME="admin"   # Default admin username
     local NEW_ADMIN_PASSWORD="$1" # Default admin password
@@ -624,6 +632,7 @@ install_openlitespeed() {
 
 
     setup_nobody_nogroup
+    setup_www_data_group
 }
 
 
