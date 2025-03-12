@@ -1027,7 +1027,7 @@ sudo ${PACKAGE_MANAGER} search lsphp
             echo "PHP $version installation failed."
         fi
     done
-sudo ${PACKAGE_MANAGER} install lsphp81-mbstring
+sudo ${PACKAGE_MANAGER} install -y lsphp81-mbstring
     echo "All requested PHP versions installed."
 }
 
