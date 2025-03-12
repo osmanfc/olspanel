@@ -1277,7 +1277,7 @@ cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 add_backup_cronjobs
-sudo dnf install libwww-perl -y
+sudo dnf install perl-libwww-perl -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
