@@ -1321,7 +1321,7 @@ mkdir -p /etc/opendkim
 sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
-
+sudo sed -i 's|/usr/lib/postfix|/usr/libexec/postfix|g' /etc/postfix/main.cf
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
