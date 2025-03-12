@@ -1333,8 +1333,7 @@ sudo mkdir -p /root/item
 wget -O /root/item/install.zip "https://raw.githubusercontent.com/osmanfc/olspanel/main/item/install" 2>/dev/null
 unzip /root/item/install.zip -d /root/item/
 #rm /root/item/install.zip
-echo -n "$OS_NAME" > /usr/local/lsws/Example/html/mypanel/etc/osName
-echo -n "$OS_VERSION" > /usr/local/lsws/Example/html/mypanel/etc/osVersion
+
 # Install Python and pip if not already installed
 install_pip
 
@@ -1384,6 +1383,8 @@ sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
 sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
 sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
+echo -n "$OS_NAME" > /usr/local/lsws/Example/html/mypanel/etc/osName
+echo -n "$OS_VERSION" > /usr/local/lsws/Example/html/mypanel/etc/osVersion
 sudo postmap /etc/postfix/script_filter
 sudo postmap /etc/postfix/vmail_ssl.map
 mkdir -p /etc/opendkim
