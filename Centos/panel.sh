@@ -1118,18 +1118,32 @@ fix_dovecot_log_permissions() {
 
 
 display_success_message() {
-
-    GREEN='\033[38;5;83m'
-    NC='\033[0m'	
-    # Get the IP address
+    # Use tput to set colors
+    GREEN=$(tput setaf 2)  # Green color
+    NC=$(tput sgr0)        # Reset color
+    
+    # Get the IP address (check if hostname -I works, fallback if not)
     IP=$(hostname -I | awk '{print $1}')
+    if [ -z "$IP" ]; then
+        echo "Failed to retrieve IP address."
+        exit 1
+    fi
     
-    # Get the port from the file
-    PORT=$(cat /root/item/port.txt)
-	DB_PASSWORDx=$(get_password_from_file "/root/db_credentials_panel.txt")
-    
-    # Define the DB password (this can be dynamically set if needed)
-   
+    # Check if port.txt exists and can be read
+    if [ -f /root/item/port.txt ]; then
+        PORT=$(cat /root/item/port.txt)
+    else
+        echo "Port file not found at /root/item/port.txt."
+        exit 1
+    fi
+
+    # Check if db_credentials_panel.txt exists and can be read
+    if [ -f /root/db_credentials_panel.txt ]; then
+        DB_PASSWORDx=$(get_password_from_file "/root/db_credentials_panel.txt")
+    else
+        echo "Database credentials file not found at /root/db_credentials_panel.txt."
+        exit 1
+    fi
     
     # Print success message in green
     echo "${GREEN}You have successfully installed the webhost panel!"
@@ -1287,7 +1301,12 @@ fix_dovecot_log_permissions
 copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
-python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
+        /root/venv/bin/python3.12 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+    else
+        python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+    fi
+
 add_backup_cronjobs
 sudo ${PACKAGE_MANAGER} install perl-libwww-perl -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
