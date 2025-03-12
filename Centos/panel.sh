@@ -10,6 +10,18 @@ fi
 
 SYSTEMD_SERVICE="lsws"
 
+if [ "$OS_NAME" == "centos" ] || [ "$OS_NAME" == "almalinux" ] || [ "$OS_NAME" == "rhel" ] || [ "$OS_NAME" == "fedora" ] || [ "$OS_NAME" == "rocky" ] || [ "$OS_NAME" == "oraclelinux" ]; then
+    # For CentOS, AlmaLinux, RHEL, Fedora, Rocky, Oracle Linux, use dnf or yum
+    if command -v dnf &> /dev/null; then
+        PACKAGE_MANAGER="dnf"
+    else
+        PACKAGE_MANAGER="yum"
+    fi
+else
+    echo "Unsupported OS: $OS_NAME"
+   
+fi
+
 install_rust() {
     echo "Installing Rust..."
 
@@ -59,10 +71,10 @@ install_rust
     wait_for_apt_lock
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo dnf groupinstall "Development Tools" -y
-    sudo dnf install -y python3
-    sudo dnf install -y python3-pip
-    sudo dnf install mysql-devel -y
+    sudo ${PACKAGE_MANAGER} groupinstall "Development Tools" -y
+    sudo ${PACKAGE_MANAGER} install -y python3
+    sudo ${PACKAGE_MANAGER} install -y python3-pip
+    sudo ${PACKAGE_MANAGER} install mysql-devel -y
 
     
       
@@ -88,12 +100,12 @@ install_pip() {
         python="python3"
     fi
 echo "Installing Python on ${OS_NAME} version ${OS_VERSION}  dependencies...${python}"
-    sudo dnf install -y epel-release
-    sudo dnf install -y dnf-utils
-    sudo dnf config-manager --set-enabled powertools
-    sudo dnf install -y "${python}" "${python}-pip"
-    sudo dnf groupinstall "Development Tools" -y
-    sudo dnf install -y "${python}-devel" mysql-devel
+    sudo ${PACKAGE_MANAGER} install -y epel-release
+    sudo ${PACKAGE_MANAGER} install -y ${PACKAGE_MANAGER}-utils
+    sudo ${PACKAGE_MANAGER} config-manager --set-enabled powertools
+    sudo ${PACKAGE_MANAGER} install -y "${python}" "${python}-pip"
+    sudo ${PACKAGE_MANAGER} groupinstall "Development Tools" -y
+    sudo ${PACKAGE_MANAGER} install -y "${python}-devel" mysql-devel
 
     "${python}" -m pip install --upgrade pip setuptools-rust
 
@@ -129,7 +141,7 @@ install_mariadb() {
     fi
 
     echo "Installing MariaDB server and client..."
-    sudo dnf install -y mariadb-server mariadb
+    sudo ${PACKAGE_MANAGER} install -y mariadb-server mariadb
     sudo systemctl enable mariadb
     sudo systemctl start mariadb
 
@@ -312,7 +324,7 @@ fi
 
     # Install Postfix and related packages
     #sudo dnf install -y postfix postfix-mysql dovecot-core dovecot-imapd dovecot-pop3d dovecot-lmtpd dovecot-mysql
-    sudo dnf install -y postfix postfix-mysql dovecot dovecot-mysql
+    sudo ${PACKAGE_MANAGER} install -y postfix postfix-mysql dovecot dovecot-mysql
 sudo systemctl enable postfix
 sudo systemctl start postfix
 
@@ -324,7 +336,7 @@ sudo systemctl start postfix
     fi
 
     # Install Dovecot SQLite backend
-    sudo dnf install -y dovecot-sqlite dovecot-mysql
+    sudo ${PACKAGE_MANAGER} install -y dovecot-sqlite dovecot-mysql
 
     # Check if Dovecot SQLite installation is successful
     if [ $? -ne 0 ]; then
@@ -333,7 +345,7 @@ sudo systemctl start postfix
     fi
 
     # Install Pure-FTPd MySQL support
-    sudo dnf install -y pure-ftpd
+    sudo ${PACKAGE_MANAGER} install -y pure-ftpd
 
     # Check if Pure-FTPd installation is successful
     if [ $? -ne 0 ]; then
@@ -341,7 +353,7 @@ sudo systemctl start postfix
         return 1
     fi
     
-    sudo dnf install -y opendkim opendkim-tools
+    sudo ${PACKAGE_MANAGER} install -y opendkim opendkim-tools
     echo "Mail server and FTP server installation completed successfully!"
     sudo systemctl enable --now pure-ftpd
 sudo systemctl start pure-ftpd
@@ -495,7 +507,7 @@ generate_pureftpd_ssl_certificate() {
     # Check if OpenSSL is installed
     if ! command -v openssl &> /dev/null; then
         echo "OpenSSL is not installed. Installing it now..."
-        sudo dnf install -y openssl
+        sudo ${PACKAGE_MANAGER} install -y openssl
         if [ $? -ne 0 ]; then
             echo "Failed to install OpenSSL. Exiting."
             return 1
@@ -554,7 +566,7 @@ install_openlitespeed() {
     echo "Installing OpenLiteSpeed Web Server on Ubuntu..."
     wget -O openlitespeed.sh https://repo.litespeed.sh
     sudo bash openlitespeed.sh
-    sudo dnf install openlitespeed -y
+    sudo ${PACKAGE_MANAGER} install openlitespeed -y
     
     if command -v lswsctrl &> /dev/null; then
         echo "OpenLiteSpeed installed successfully."
@@ -662,7 +674,7 @@ copy_conf_for_ols() {
 }
 
 allow_ports() {
-sudo dnf install ufw -y
+sudo ${PACKAGE_MANAGER} install ufw -y
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 sudo systemctl mask firewalld
@@ -711,7 +723,7 @@ install_zip_and_tar() {
     # Install zip if not already installed
     if ! command -v zip &> /dev/null; then
         echo "Installing zip..."
-        sudo dnf install zip -y
+        sudo ${PACKAGE_MANAGER} install zip -y
     else
         echo "zip is already installed."
     fi
@@ -719,7 +731,7 @@ install_zip_and_tar() {
     # Install tar if not already installed
     if ! command -v tar &> /dev/null; then
         echo "Installing tar..."
-        sudo dnf install tar -y
+        sudo ${PACKAGE_MANAGER} install tar -y
     else
         echo "tar is already installed."
     fi
@@ -993,9 +1005,9 @@ copy_vhconf_to_example() {
 
 install_all_lsphp_versions() {
     echo "Installing OpenLiteSpeed PHP versions 7.4 to 8.4..."
-sudo dnf search lsphp
+sudo ${PACKAGE_MANAGER} search lsphp
     # Install software-properties-common if not installed
-    sudo dnf install -y software-properties-common
+    sudo ${PACKAGE_MANAGER} install -y software-properties-common
 
     # Add the OpenLiteSpeed PHP repository
     #sudo add-apt-repository -y ppa:openlitespeed/php
@@ -1006,7 +1018,7 @@ sudo dnf search lsphp
     # Install PHP versions from 7.4 to 8.4
     for version in 74 80 81 82 83 84; do
         echo "Installing PHP $version..."
-        sudo dnf install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysqlnd
+        sudo ${PACKAGE_MANAGER} install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysqlnd
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
@@ -1015,7 +1027,7 @@ sudo dnf search lsphp
             echo "PHP $version installation failed."
         fi
     done
-sudo dnf install lsphp81-mbstring
+sudo ${PACKAGE_MANAGER} install lsphp81-mbstring
     echo "All requested PHP versions installed."
 }
 
@@ -1193,7 +1205,7 @@ install_python_dependencies() {
 
 
 
-sudo dnf install -y rsync
+sudo ${PACKAGE_MANAGER} install -y rsync
 disable_kernel_message
 # Directory to save the password
 PASSWORD_DIR="/root/item"
@@ -1277,7 +1289,7 @@ cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
 python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 add_backup_cronjobs
-sudo dnf install perl-libwww-perl -y
+sudo ${PACKAGE_MANAGER} install perl-libwww-perl -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
