@@ -802,6 +802,7 @@ add_backup_cronjobs() {
 0 0 * * 0 $PYTHON_CMD $BACKUP_SCRIPT backup --week
 0 0 1 * * $PYTHON_CMD $BACKUP_SCRIPT backup --month
 0 0 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py check_version
+0 */3 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py limit_check
 "
 
     # Add cron jobs for root user
