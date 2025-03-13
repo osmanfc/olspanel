@@ -340,8 +340,10 @@ sudo systemctl start postfix
     
     sudo ${PACKAGE_MANAGER} install -y opendkim opendkim-tools
     echo "Mail server and FTP server installation completed successfully!"
-    sudo systemctl enable --now pure-ftpd
+    sudo systemctl enable pure-ftpd
 sudo systemctl start pure-ftpd
+sudo systemctl enable dovecot
+sudo systemctl start dovecot
 
 }
 
