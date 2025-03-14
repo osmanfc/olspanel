@@ -1381,7 +1381,7 @@ mkdir -p /etc/opendkim
 sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
-sudo sed -i 's|/usr/lib/postfix|/usr/libexec/postfix|g' /etc/postfix/main.cf
+sudo sed -i 's|/usr/libexec/postfix/sbin|/usr/libexec/postfix|g' /etc/postfix/main.cf
 replace_python_in_service
 sleep 3
 sudo systemctl restart pdns
