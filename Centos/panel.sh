@@ -1061,6 +1061,7 @@ sudo ${PACKAGE_MANAGER} search lsphp
         fi
     done
 sudo ${PACKAGE_MANAGER} install -y lsphp81-mbstring
+sudo ${PACKAGE_MANAGER} install -y lsphp81-xml
     echo "All requested PHP versions installed."
 }
 
