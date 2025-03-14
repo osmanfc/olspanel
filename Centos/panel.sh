@@ -1381,7 +1381,18 @@ mkdir -p /etc/opendkim
 sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
-sudo sed -i 's|/usr/libexec/postfix/sbin|/usr/libexec/postfix|g' /etc/postfix/main.cf
+local path_to_check="/usr/lib/postfix/sbin"
+  
+# Check if the directory or file /usr/libexec/postfix/sbin exists
+if [ ! -e "$path_to_check" ]; then
+  echo "$path_to_check does not exist. Proceeding to update /etc/postfix/main.cf..."
+  
+  # Run the sed command to update the path in /etc/postfix/main.cf
+  sudo sed -i 's|/usr/lib/postfix/sbin|/usr/libexec/postfix|g' /etc/postfix/main.cf
+ 
+else
+  echo "$path_to_check already exists. No need to update /etc/postfix/main.cf."
+fi
 replace_python_in_service
 sleep 3
 sudo systemctl restart pdns
