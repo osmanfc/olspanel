@@ -344,7 +344,8 @@ sudo systemctl start postfix
 sudo systemctl start pure-ftpd
 sudo systemctl enable dovecot
 sudo systemctl start dovecot
-
+sudo systemctl enable opendkim
+sudo systemctl start opendkim
 }
 
 install_powerdns_and_mysql_backend() {
