@@ -1384,6 +1384,15 @@ sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
 local path_to_check="/usr/lib/postfix/sbin"
 local path_to_checkmaster="/usr/lib/dovecot/deliver"
+local path_to_mysql="/var/run/mysqld/"
+# Check if the directory or file /usr/libexec/postfix/sbin exists
+if [ ! -e "$path_to_mysql" ]; then
+ 
+  sudo sed -i 's|/var/run/mysqld/mysqld.sock|/var/lib/mysql/mysql.sock|g' /etc/pure-ftpd/db/mysql.conf
+ 
+else
+  echo "$path_to_mysql already exists."
+fi
   
 # Check if the directory or file /usr/libexec/postfix/sbin exists
 if [ ! -e "$path_to_check" ]; then
