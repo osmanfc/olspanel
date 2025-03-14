@@ -1382,6 +1382,7 @@ sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
 local path_to_check="/usr/lib/postfix/sbin"
+local path_to_checkmaster="/usr/lib/dovecot/deliver"
   
 # Check if the directory or file /usr/libexec/postfix/sbin exists
 if [ ! -e "$path_to_check" ]; then
@@ -1393,6 +1394,17 @@ if [ ! -e "$path_to_check" ]; then
 else
   echo "$path_to_check already exists. No need to update /etc/postfix/main.cf."
 fi
+
+if [ ! -e "$path_to_checkmaster" ]; then
+  echo "$path_to_checkmaster does not exist. Proceeding to update /etc/postfix/master.cf..."
+  
+  # Run the sed command to update the path in /etc/postfix/master.cf
+  sudo sed -i 's|/usr/lib/dovecot/deliver|/usr/libexec/dovecot/deliver|g' /etc/postfix/master.cf
+ 
+else
+  echo "$path_to_checkmaster already exists. No need to update /etc/postfix/main.cf."
+fi
+
 replace_python_in_service
 sleep 3
 sudo systemctl restart pdns
