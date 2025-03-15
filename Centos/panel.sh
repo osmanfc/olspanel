@@ -1415,6 +1415,27 @@ else
   echo "$path_to_checkmaster already exists. No need to update /etc/postfix/main.cf."
 fi
 
+# Check if openssh-server is installed
+if ! rpm -q openssh-server; then
+    echo "openssh-server is not installed. Installing..."
+    sudo dnf install -y openssh-server
+else
+    echo "openssh-server is already installed."
+fi
+
+# Start the sshd service if not already running
+if ! systemctl is-active --quiet sshd; then
+    echo "sshd is not running. Starting sshd service..."
+    sudo systemctl start sshd
+else
+    echo "sshd is already running."
+fi
+
+# Enable sshd to start on boot
+sudo systemctl enable sshd
+echo "sshd is enabled to start on boot."
+
+
 replace_python_in_service
 sleep 3
 sudo systemctl restart pdns
