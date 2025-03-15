@@ -1363,7 +1363,7 @@ cp /root/item/move/conf/olspanel.sh /etc/profile.d
 if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
         /root/venv/bin/python3.12 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
     else
-        python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+        /root/venv/bin/python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
     fi
 
 add_backup_cronjobs
