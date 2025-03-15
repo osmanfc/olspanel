@@ -1382,9 +1382,9 @@ mkdir -p /etc/opendkim
 sudo touch /etc/opendkim/key.table
 sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
-local path_to_check="/usr/lib/postfix/sbin"
-local path_to_checkmaster="/usr/lib/dovecot/deliver"
-local path_to_mysql="/var/run/mysqld/"
+path_to_check="/usr/lib/postfix/sbin"
+path_to_checkmaster="/usr/lib/dovecot/deliver"
+path_to_mysql="/var/run/mysqld/"
 # Check if the directory or file /usr/libexec/postfix/sbin exists
 if [ ! -e "$path_to_mysql" ]; then
  
