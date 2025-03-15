@@ -1336,7 +1336,7 @@ import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
 
 install_openlitespeed "$(get_password_from_file "/root/db_credentials_panel.txt")" 
 change_ols_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
-install_python_dependencies
+#install_python_dependencies
 
 install_mail_and_ftp_server
 install_powerdns_and_mysql_backend
