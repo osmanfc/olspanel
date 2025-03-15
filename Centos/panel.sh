@@ -362,11 +362,11 @@ install_powerdns_and_mysql_backend() {
             sudo curl -o /etc/yum.repos.d/powerdns-auth-43.repo https://olspanel.com/repo-files/centos-auth-43.repo
 			sudo $PKG_MANAGER install -y openssl pdns pdns-backend-mysql
         else
-             sudo dnf install -y openssl pdns-server pdns-backend-mysql
+             sudo dnf install -y openssl pdns pdns-backend-mysql
             
         fi
     else
-        sudo dnf install -y openssl pdns-server pdns-backend-mysql
+        sudo dnf install -y openssl pdns pdns-backend-mysql
     fi
 
     echo "Installing OpenSSL, PowerDNS, and PowerDNS MySQL backend..."
