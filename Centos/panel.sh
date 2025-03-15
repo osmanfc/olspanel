@@ -1279,6 +1279,48 @@ replace_python_in_service() {
     echo "Successfully updated systemd service to use virtual environment Python."
 }
 
+fix_openssh() {
+    # Function to reinstall OpenSSH if it fails to start
+    reinstall_openssh() {
+        echo "⚠️ SSHD failed to start. Reinstalling OpenSSH..."
+        sudo dnf remove -y openssh-server openssh-clients openssh
+        sudo dnf install -y openssh-server openssh-clients
+        sudo systemctl restart sshd
+    }
+
+    # Check if openssh-server is installed
+    if ! rpm -q openssh-server &>/dev/null; then
+        echo "📦 OpenSSH is not installed. Installing..."
+        sudo dnf install -y openssh-server
+    else
+        echo "✅ OpenSSH is already installed."
+    fi
+
+    # Start the sshd service if not already running
+    if ! systemctl is-active --quiet sshd; then
+        echo "🚀 SSHD is not running. Attempting to start..."
+        sudo systemctl start sshd
+        
+        # Check if sshd started successfully
+        if ! systemctl is-active --quiet sshd; then
+            reinstall_openssh
+        fi
+    else
+        echo "✅ SSHD is already running."
+    fi
+
+    # Enable SSHD to start on boot
+    sudo systemctl enable sshd
+    echo "✅ SSHD is enabled to start on boot."
+
+    # Final check for SSHD status
+    if systemctl is-active --quiet sshd; then
+        echo "🎉 SSHD is running successfully!"
+    else
+        echo "❌ SSHD failed to start. Check logs with: journalctl -u sshd --no-pager -n 50"
+    fi
+}
+
 sudo ${PACKAGE_MANAGER} install -y rsync
 disable_kernel_message
 # Directory to save the password
@@ -1416,21 +1458,7 @@ else
   echo "$path_to_checkmaster already exists. No need to update /etc/postfix/main.cf."
 fi
 
-# Check if openssh-server is installed
-if ! rpm -q openssh-server; then
-    echo "openssh-server is not installed. Installing..."
-    sudo dnf install -y openssh-server
-else
-    echo "openssh-server is already installed."
-fi
-
-# Start the sshd service if not already running
-if ! systemctl is-active --quiet sshd; then
-    echo "sshd is not running. Starting sshd service..."
-    sudo systemctl start sshd
-else
-    echo "sshd is already running."
-fi
+fix_openssh
 
 # Enable sshd to start on boot
 sudo systemctl enable sshd
