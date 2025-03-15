@@ -1360,6 +1360,7 @@ fix_dovecot_log_permissions
 copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
+install_pip
 if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
         /root/venv/bin/python3.12 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
     else
