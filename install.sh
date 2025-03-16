@@ -22,9 +22,6 @@ elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
 elif echo "$OUTPUT" | grep -q "AlmaLinux 9"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
-elif echo "$OUTPUT" | grep -q "CentOS Linux 7"; then
-    SERVER_OS="Centos"
-    sudo yum update -y && sudo yum install -y wget curl
 elif echo "$OUTPUT" | grep -q "CentOS Linux 8" || echo "$OUTPUT" | grep -q "CentOS Stream 8"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
