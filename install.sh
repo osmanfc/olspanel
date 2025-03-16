@@ -22,8 +22,17 @@ elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
 elif echo "$OUTPUT" | grep -q "AlmaLinux 9"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
+elif echo "$OUTPUT" | grep -q "CentOS Linux 7"; then
+    SERVER_OS="Centos"
+    sudo yum update -y && sudo yum install -y wget curl
+elif echo "$OUTPUT" | grep -q "CentOS Linux 8" || echo "$OUTPUT" | grep -q "CentOS Stream 8"; then
+    SERVER_OS="Centos"
+    sudo dnf update -y && sudo dnf install -y wget curl
+elif echo "$OUTPUT" | grep -q "CentOS Stream 9"; then
+    SERVER_OS="Centos"
+    sudo dnf update -y && sudo dnf install -y wget curl
 else
-    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, and 24.04. Other OS support coming soon.\n"
+    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, 24.04 AlmaLinux 8 , 9. Other OS support coming soon.\n"
     exit 1
 fi
 
