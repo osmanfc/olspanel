@@ -1291,6 +1291,11 @@ replace_python_in_service() {
 }
 
 fix_openssh() {
+ if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && "$OS_VERSION" -ge 8 ]]; then
+  sudo dnf install -y openssh-server
+else
+  echo "no need version"
+fi
     # Function to reinstall OpenSSH if it fails to start
     reinstall_openssh() {
         echo "⚠️ SSHD failed to start. Reinstalling OpenSSH..."
@@ -1330,6 +1335,9 @@ fix_openssh() {
     else
         echo "❌ SSHD failed to start. Check logs with: journalctl -u sshd --no-pager -n 50"
     fi
+
+   
+
 }
 
 sudo ${PACKAGE_MANAGER} install -y rsync
