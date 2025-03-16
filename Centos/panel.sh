@@ -1293,6 +1293,7 @@ replace_python_in_service() {
 fix_openssh() {
  if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && "$OS_VERSION" -ge 8 ]]; then
   sudo dnf install -y openssh-server
+  sudo systemctl enable sshd
 else
   echo "no need version"
 fi
