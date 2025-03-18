@@ -22,10 +22,12 @@
 ## 🖥️ Supported Operating Systems
 `OLSpanel` is currently supported on **Ubuntu 18.04 to Ubuntu 24.04**:
 
-- ✅ **Ubuntu 18.04 (Bionic Beaver)**
+
 - ✅ **Ubuntu 20.04 (Focal Fossa)**
 - ✅ **Ubuntu 22.04 (Jammy Jellyfish)**
 - ✅ **Ubuntu 24.04 (Noble Numbat)**
+- ✅ **CentOS 8/9**
+- ✅ **AlmaLinux 8/9**
 
 > ℹ️ *Support for additional Linux distributions is coming soon!*
 
