@@ -41,7 +41,7 @@ Here are some screenshots of the **OLSpanel** control panel:
 ![whm](https://github.com/osmanfc/olspanel/blob/8b2739c875281dd464954f014db5bd0f8c6e2dc3/screenshort/whm.png)  
 
 *User Panel  Interface*
-![User panel Interface](https://github.com/osmanfc/olspanel/blob/91fe2554c9ef5589ec5c2d08803782adacf00e4b/screenshort/user-home.png)  
+![User panel Interface](https://github.com/osmanfc/olspanel/blob/935bdea1e1f74afbbc6e44d8e206d34593f2c788/screenshort/user.png)  
 
 
 
