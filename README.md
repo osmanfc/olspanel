@@ -20,7 +20,7 @@
 ---
 
 ## 🖥️ Supported Operating Systems
-`OLSpanel` is currently supported on **Ubuntu 18.04 to Ubuntu 24.04**:
+`OLSpanel` is currently supported on following OS:
 
 
 - ✅ **Ubuntu 20.04 (Focal Fossa)**
