@@ -911,7 +911,7 @@ install_all_lsphp_versions() {
 
             # Modify disable_functions
             echo "Updating disable_functions in $target_ini..."
-            sudo sed -i 's/^disable_functions\s*=.*/disable_functions = exec,passthru,shell_exec,system,proc_open,popen/' "$target_ini"
+            sudo sed -i 's/^disable_functions\s*=.*/disable_functions = pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_get_handler,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,pcntl_async_signals,pcntl_unshare/' "$target_ini"
             echo "Updated disable_functions in $target_ini."
 
         else
