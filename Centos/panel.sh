@@ -1067,6 +1067,26 @@ sudo ${PACKAGE_MANAGER} search lsphp
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
             echo "PHP $version installed successfully!"
+php_version="${version:0:1}.${version:1}"
+
+            # Define php.ini paths
+            ini_file_path="/usr/local/lsws/lsphp$version/etc/php/$php_version/litespeed/php.ini"
+            ini_file_path_old="/usr/local/lsws/lsphp$version/etc/php.ini"
+
+            # Determine which php.ini file exists
+            if [ -f "$ini_file_path" ]; then
+                target_ini="$ini_file_path"
+            elif [ -f "$ini_file_path_old" ]; then
+                target_ini="$ini_file_path_old"
+            else
+                echo "No php.ini found for PHP $php_version, skipping..."
+                continue
+            fi
+
+            # Modify disable_functions
+            echo "Updating disable_functions in $target_ini..."
+            sudo sed -i 's/^disable_functions\s*=.*/disable_functions = exec,passthru,shell_exec,system,proc_open,popen/' "$target_ini"
+            echo "Updated disable_functions in $target_ini."
         else
             echo "PHP $version installation failed."
         fi
