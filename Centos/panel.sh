@@ -1093,6 +1093,7 @@ php_version="${version:0:1}.${version:1}"
     done
 sudo ${PACKAGE_MANAGER} install -y lsphp81-mbstring
 sudo ${PACKAGE_MANAGER} install -y lsphp81-xml
+pkill lsphp
     echo "All requested PHP versions installed."
 }
 
