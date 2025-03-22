@@ -918,7 +918,7 @@ install_all_lsphp_versions() {
             echo "PHP $version installation failed."
         fi
     done
-
+pkill lsphp
     echo "All requested PHP versions installed."
 }
 
