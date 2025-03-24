@@ -68,7 +68,7 @@ install_pip() {
     sudo apt install python3 python3-venv python3-pip pkg-config libmysqlclient-dev -y
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
-if [[ "$OS_NAME" == "debian" && "$OS_VERSION" -ge 11 ]]; then
+if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
     
         echo "Creating virtual environment for Python dependencies..."
         python3 -m venv /root/venv
@@ -80,7 +80,7 @@ if [[ "$OS_NAME" == "debian" && "$OS_VERSION" -ge 11 ]]; then
     echo "Installing mysqlclient..."
     pip install --no-binary :all: mysqlclient
     
-    if [[ "$OS_NAME" == "debian" && "$OS_VERSION" -ge 11 ]]; then
+    if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
         deactivate
     fi
     
@@ -1105,7 +1105,7 @@ install_python_dependencies() {
         UBUNTU_VERSION=$(lsb_release -rs | cut -d. -f1)
 
         # If Ubuntu version is 24 or higher, use virtual environment
-        if [[ "$OS_NAME" == "debian" && "$OS_VERSION" -ge 11 ]]; then
+        if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
             install_python_dependencies_in_venv
         else
             # For Ubuntu versions below 24, install packages using pip directly
@@ -1131,7 +1131,7 @@ replace_python_in_cron_and_service() {
     UBUNTU_VERSION=$(lsb_release -r | awk '{print $2}' | cut -d '.' -f1)
     
     # Only proceed if the Ubuntu version is 24 or higher
-    if [[ "$OS_NAME" == "debian" && "$OS_VERSION" -ge 11 ]]; then
+    if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
         # Path to the virtual environment python
         VENV_PYTHON="/root/venv/bin/python"
         
