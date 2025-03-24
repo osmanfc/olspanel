@@ -16,15 +16,9 @@ elif echo "$OUTPUT" | grep -q "Ubuntu 22.04"; then
 elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     SERVER_OS="Ubuntu"
     sudo apt update -qq && sudo apt install -y -qq wget curl
-elif echo "$OUTPUT" | grep -q "Debian 10"; then
+elif echo "$OUTPUT" | grep -q "Debian"; then
     SERVER_OS="Ubuntu"
     sudo apt update -qq && sudo apt install -y -qq wget curl
-elif echo "$OUTPUT" | grep -q "Debian 11"; then
-    SERVER_OS="Ubuntu"
-    sudo apt update -qq && sudo apt install -y -qq wget curl
-elif echo "$OUTPUT" | grep -q "Debian 12"; then
-    SERVER_OS="Ubuntu"
-    sudo apt update -qq && sudo apt install -y -qq wget curl    
 elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
