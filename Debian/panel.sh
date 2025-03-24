@@ -65,7 +65,8 @@ install_pip() {
     sudo apt update && sudo apt upgrade -y
     echo "Installing Python..."
     wait_for_apt_lock
-    sudo apt install python3 python3-venv python3-pip pkg-config libmysqlclient-dev -y
+    sudo apt install -y python3 python3-venv python3-pip pkg-config
+    sudo apt install -y libmariadb-dev
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
 if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
@@ -1223,7 +1224,7 @@ install_mariadb "$PASSWORD"
 change_mysql_root_password "$PASSWORD"
 create_database_and_user "$PASSWORD" "panel" "panel"
 import_database "$PASSWORD" "panel" "/root/item/panel_db.sql"
-
+install_pip
 install_openlitespeed "$(get_password_from_file "/root/db_credentials_panel.txt")" 
 change_ols_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 install_python_dependencies
