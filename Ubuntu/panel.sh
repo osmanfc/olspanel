@@ -913,7 +913,7 @@ install_all_lsphp_versions() {
             echo "PHP $version installed successfully!"
 
             # Convert version to dotted format (e.g., 74 → 7.4)
-            php_version="${version:0:1}.${version:1}"
+            php_version="${version:0:2}.${version:2:1}"
 
             # Define php.ini paths
             ini_file_path="/usr/local/lsws/lsphp$version/etc/php/$php_version/litespeed/php.ini"
