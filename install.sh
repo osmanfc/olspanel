@@ -16,6 +16,15 @@ elif echo "$OUTPUT" | grep -q "Ubuntu 22.04"; then
 elif echo "$OUTPUT" | grep -q "Ubuntu 24.04"; then
     SERVER_OS="Ubuntu"
     sudo apt update -qq && sudo apt install -y -qq wget curl
+elif echo "$OUTPUT" | grep -q "Debian 10"; then
+    SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
+elif echo "$OUTPUT" | grep -q "Debian 11"; then
+    SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl
+elif echo "$OUTPUT" | grep -q "Debian 12"; then
+    SERVER_OS="Ubuntu"
+    sudo apt update -qq && sudo apt install -y -qq wget curl    
 elif echo "$OUTPUT" | grep -q "AlmaLinux 8"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
@@ -29,7 +38,7 @@ elif echo "$OUTPUT" | grep -q "CentOS Stream 9"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
 else
-    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, 24.04 AlmaLinux 8 , 9 CentOS Stream 8 and 9 Other OS support coming soon.\n"
+    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, 24.04, Debian 11, 12, AlmaLinux 8 , 9 and CentOS Stream 8, 9 Other OS support coming soon.\n"
     exit 1
 fi
 
