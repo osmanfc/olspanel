@@ -17,6 +17,7 @@ elif [ -f /etc/centos-release ]; then
     OS_NAME="centos"
     OS_VERSION=$(awk '{print $4}' /etc/centos-release | cut -d. -f1)  # Remove decimal part
 fi
+
 install_sudo() {
     # Check if sudo is installed
     if ! command -v sudo &> /dev/null; then
@@ -24,15 +25,17 @@ install_sudo() {
         # Check if the user is root
         if [ "$(id -u)" -ne 0 ]; then
             echo "You need to be root to install sudo. Switching to root."
-            su -c "apt install sudo -y"
+            # Using su to execute the command as root
+            su -c "apt update && apt install sudo -y"
         else
-            # Install sudo if the script is running as root
-         
+            # If already root, install sudo directly
+            apt update && apt install sudo -y
         fi
     else
         echo "sudo is already installed."
     fi
 }
+
 install_sudo
 # Function to wait for the apt lock to be released
 wait_for_apt_lock() {
