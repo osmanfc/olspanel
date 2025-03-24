@@ -577,6 +577,16 @@ copy_conf_for_ols() {
 }
 
 allow_ports() {
+sudo apt install ufw -y
+sudo systemctl stop nftables
+sudo systemctl disable nftables
+sudo systemctl mask nftables
+sudo systemctl stop iptables
+sudo systemctl disable iptables
+sudo systemctl mask iptables
+sudo systemctl enable ufw
+sudo systemctl start ufw
+echo "y" | sudo ufw enable
     if [ $# -eq 0 ]; then
         echo "Error: No ports specified."
         return 1
