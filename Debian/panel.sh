@@ -613,7 +613,7 @@ echo "y" | sudo ufw enable
     sudo iptables -A OUTPUT -p tcp --dport 40110:40210 -j ACCEPT
     echo "Allowed 40110:40210/tcp through both UFW and iptables."
 
-    # Reload UFW to apply changes
+sudo ufw allow 53/udp
     sudo ufw reload
     echo "UFW rules reloaded."
 
