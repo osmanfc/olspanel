@@ -1067,7 +1067,7 @@ sudo ${PACKAGE_MANAGER} search lsphp
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
             echo "PHP $version installed successfully!"
-php_version=$(echo "$version" | awk '{print substr($0,1,1) "." substr($0,2,1)}')"
+php_version=$(echo "$version" | awk '{print substr($0,1,1) "." substr($0,2,1)}')
 
             # Define php.ini paths
             ini_file_path="/usr/local/lsws/lsphp$version/etc/php/$php_version/litespeed/php.ini"
