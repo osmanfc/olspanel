@@ -1279,4 +1279,3 @@ replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 display_success_message
 sudo rm -rf /root/item
-
