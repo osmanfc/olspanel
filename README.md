@@ -28,6 +28,7 @@
 - ✅ **Ubuntu 24.04 (Noble Numbat)**
 - ✅ **CentOS 8/9**
 - ✅ **AlmaLinux 8/9**
+- ✅ **Debian 11/12**
 
 > ℹ️ *Support for additional Linux distributions is coming soon!*
 
