@@ -68,20 +68,20 @@ install_pip() {
     sudo apt install python3 python3-venv python3-pip pkg-config libmysqlclient-dev -y
     
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
-if [ "$UBUNTU_VERSION" -ge 24 ]; then     
+
         echo "Creating virtual environment for Python dependencies..."
         python3 -m venv /root/venv
         source /root/venv/bin/activate
-    fi
+   
     
     echo "Upgrading pip and setuptools..."
     pip install --upgrade pip setuptools
     echo "Installing mysqlclient..."
     pip install --no-binary :all: mysqlclient
     
-    if [ "$UBUNTU_VERSION" -ge 24 ]; then 
+    
     deactivate
-    fi
+  
     
     echo "Python and pip setup completed!"
 }
@@ -576,6 +576,16 @@ copy_conf_for_ols() {
 }
 
 allow_ports() {
+sudo apt install ufw -y
+sudo systemctl stop nftables
+sudo systemctl disable nftables
+sudo systemctl mask nftables
+sudo systemctl stop iptables
+sudo systemctl disable iptables
+sudo systemctl mask iptables
+sudo systemctl enable ufw
+sudo systemctl start ufw
+echo "y" | sudo ufw enable
     if [ $# -eq 0 ]; then
         echo "Error: No ports specified."
         return 1
@@ -811,7 +821,7 @@ set_ownership_and_permissions() {
 
 
 add_backup_cronjobs() {
-    local PYTHON_CMD=$(which python3)
+    local PYTHON_CMD="/root/venv/bin/python"
     local BACKUP_SCRIPT="/usr/local/lsws/Example/html/mypanel/manage.py"
 
     # Define the cron jobs
@@ -1094,13 +1104,9 @@ install_python_dependencies() {
         UBUNTU_VERSION=$(lsb_release -rs | cut -d. -f1)
 
         # If Ubuntu version is 24 or higher, use virtual environment
-        if [ "$UBUNTU_VERSION" -ge 24 ]; then 
+       
             install_python_dependencies_in_venv
-        else
-            # For Ubuntu versions below 24, install packages using pip directly
-            echo "Ubuntu version is below 24. Installing packages directly using pip..."
-            pip install -r requirements.txt
-        fi
+       
         
         # Check if the installation was successful
         if [ $? -eq 0 ]; then
@@ -1119,22 +1125,13 @@ replace_python_in_cron_and_service() {
     # Get the Ubuntu version
     UBUNTU_VERSION=$(lsb_release -r | awk '{print $2}' | cut -d '.' -f1)
     
-    # Only proceed if the Ubuntu version is 24 or higher
-    if [ "$UBUNTU_VERSION" -ge 24 ]; then 
-        # Path to the virtual environment python
+   
         VENV_PYTHON="/root/venv/bin/python"
         
         # File paths for cron job and systemd service
-        CRON_FILE="/var/spool/cron/crontabs/root"
-        SERVICE_FILE="/etc/systemd/system/cp.service"
+         SERVICE_FILE="/etc/systemd/system/cp.service"
         
-        # Replace python3 with the virtual environment python in the cron job
-        if [ -f "$CRON_FILE" ]; then
-            echo "Updating cron job to use virtual environment Python..."
-            sed -i "s|/usr/bin/python3|$VENV_PYTHON|g" "$CRON_FILE"
-        else
-            echo "Cron job file not found: $CRON_FILE"
-        fi
+      
         
         # Replace python3 with the virtual environment python in the systemd service file
         if [ -f "$SERVICE_FILE" ]; then
@@ -1153,9 +1150,7 @@ replace_python_in_cron_and_service() {
         systemctl restart cp.service
         "$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
         echo "Successfully updated cron job and systemd service to use virtual environment Python."
-    else
-        echo "Ubuntu version is lower than 24. No changes were made."
-    fi
+   
 }
 
 
@@ -1239,7 +1234,7 @@ fix_dovecot_log_permissions
 copy_conf_for_ols
 cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 cp /root/item/move/conf/olspanel.sh /etc/profile.d
-python3 /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+/root/venv/bin/python /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 add_backup_cronjobs
 sudo apt-get install libwww-perl -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
