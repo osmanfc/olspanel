@@ -576,6 +576,7 @@ copy_conf_for_ols() {
 }
 
 allow_ports() {
+sudo apt install bind9-dnsutils -y
 sudo apt install ufw -y
 sudo systemctl enable ufw
 sudo systemctl start ufw
