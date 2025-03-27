@@ -577,9 +577,6 @@ copy_conf_for_ols() {
 
 allow_ports() {
 sudo apt install ufw -y
-sudo systemctl stop nftables
-sudo systemctl disable nftables
-sudo systemctl mask nftables
 sudo systemctl enable ufw
 sudo systemctl start ufw
 echo "y" | sudo ufw enable
