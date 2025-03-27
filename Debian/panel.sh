@@ -582,9 +582,6 @@ sudo apt install ufw -y
 sudo systemctl stop nftables
 sudo systemctl disable nftables
 sudo systemctl mask nftables
-sudo systemctl stop iptables
-sudo systemctl disable iptables
-sudo systemctl mask iptables
 sudo systemctl enable ufw
 sudo systemctl start ufw
 echo "y" | sudo ufw enable
