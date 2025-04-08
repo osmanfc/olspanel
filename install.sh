@@ -38,7 +38,7 @@ elif echo "$OUTPUT" | grep -q "Rocky Linux 9"; then
     SERVER_OS="Centos"
     sudo dnf update -y && sudo dnf install -y wget curl
 else
-    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, 24.04, Debian 11, 12, AlmaLinux 8 , 9 and CentOS Stream 8, 9 Other OS support coming soon.\n"
+    echo -e "\nOLS Panel is supported only on Ubuntu 18.04, 20.04, 22.04, 24.04, Debian 11, 12, AlmaLinux 8 , 9 , CentOS Stream 8, 9 and Rocky Linux 8,9 Other OS support coming soon.\n"
     exit 1
 fi
 
