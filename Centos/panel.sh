@@ -558,6 +558,8 @@ check_and_reboot() {
 }
 
 setup_nobody_nogroup() {
+sudo groupadd olspanel
+sudo useradd -r -s /usr/sbin/nologin -g olspanel olspanel
     # Check if 'nobody' user exists
     if ! getent passwd nobody > /dev/null; then
         echo "Creating 'nobody' user..."
