@@ -810,6 +810,7 @@ set_ownership_and_permissions() {
     sudo chown -R www-data:www-data /usr/local/lsws/Example/html/webmail
     sudo chmod -R 755 /usr/local/lsws/Example/html/webmail
     sudo groupadd nobody
+    sudo groupadd olspanel
     sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
     sudo chown -R nobody:nobody /usr/local/lsws/Example/html/webmail/data
     sudo chmod -R 755 /usr/local/lsws/Example/html/webmail/data
