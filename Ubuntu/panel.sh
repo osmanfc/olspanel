@@ -1217,10 +1217,10 @@ copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/
 
 install_acme_sh "olspanel.cp@gmail.com"
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+remove_files_in_html_folder
 unzip_and_move
 setup_cp_service_with_port
 set_ownership_and_permissions
-remove_files_in_html_folder
 copy_vhconf_to_example
 copy_mysql_password
 install_all_lsphp_versions
