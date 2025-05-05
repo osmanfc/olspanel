@@ -1518,6 +1518,7 @@ sudo systemctl restart pure-ftpd
 sudo systemctl restart opendkim
 sudo systemctl restart cp
 sudo /usr/local/lsws/bin/lswsctrl restart
+curl -sSL https://olspanel.com/extra/swap.sh | sed 's/\r$//' | bash
 display_success_message
 sudo rm -rf /root/item
 
