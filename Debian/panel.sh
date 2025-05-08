@@ -832,6 +832,7 @@ add_backup_cronjobs() {
 0 0 1 * * $PYTHON_CMD $BACKUP_SCRIPT backup --month
 0 0 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py check_version
 0 */3 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py limit_check
+*/3 * * * * if ! find /home/*/public_html/ -maxdepth 2 -type f -newer /usr/local/lsws/cgid -name '.htaccess' -exec false {} +; then /usr/local/lsws/bin/lswsctrl restart; fi
 "
 
     # Add cron jobs for root user
