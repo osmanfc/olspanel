@@ -917,6 +917,7 @@ install_all_lsphp_versions() {
     for version in 74 80 81 82 83 84; do
         echo "Installing PHP $version..."
         sudo apt-get install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
+	sudo apt-get install -y lsphp"$version"-curl
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
