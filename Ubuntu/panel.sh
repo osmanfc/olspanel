@@ -1261,6 +1261,7 @@ sudo systemctl restart cp
 replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 curl -sSL https://olspanel.com/extra/swap.sh | sed 's/\r$//' | bash
+curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
 display_success_message
 sudo rm -rf /root/item
 
