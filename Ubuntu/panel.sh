@@ -1238,6 +1238,7 @@ sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
 echo -n "$OS_NAME" > /usr/local/lsws/Example/html/mypanel/etc//osName
 echo -n "$OS_VERSION" > /usr/local/lsws/Example/html/mypanel/etc/osVersion
+sudo rm /etc/pure-ftpd/conf/ForcePassiveIP
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
