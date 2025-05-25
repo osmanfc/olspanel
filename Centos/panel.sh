@@ -785,25 +785,10 @@ install_zip_and_tar() {
 }
 
 install_acme_sh() {
-    local email="$1"
-
-    # Check if the email parameter is provided
-    if [ -z "$email" ]; then
-        echo "Usage: install_acme_sh <email>"
-        
-    fi
-
-    # Install acme.sh using the provided email
-    echo "Installing acme.sh with email: $email..."
+    
     wget -O -  https://get.acme.sh | sh
 
-    # Verify installation
-    if [ $? -eq 0 ]; then
-        echo "acme.sh installed successfully!"
-    else
-        echo "acme.sh installation failed."
-        
-    fi
+   
 }
 
 
@@ -1434,7 +1419,7 @@ generate_pureftpd_ssl_certificate
 allow_ports 22 25 53 80 110 143 443 465 587 993 995 7080 3306 5353 6379 21 223 155 220 2205
 copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/html" "$(get_password_from_file "/root/db_credentials_panel.txt")"
 
-install_acme_sh "olspanel.cp@gmail.com"
+install_acme_sh
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
 /root/.acme.sh/acme.sh --upgrade --auto-upgrade
 
