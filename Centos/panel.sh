@@ -1501,6 +1501,7 @@ echo "sshd is enabled to start on boot."
 
 
 replace_python_in_service
+sudo rm /etc/pure-ftpd/conf/ForcePassiveIP
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
