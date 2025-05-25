@@ -795,7 +795,7 @@ install_acme_sh() {
 
     # Install acme.sh using the provided email
     echo "Installing acme.sh with email: $email..."
-    wget -O -  https://get.acme.sh | sh -s email="$email"
+    wget -O -  https://get.acme.sh | sh
 
     # Verify installation
     if [ $? -eq 0 ]; then
@@ -1436,6 +1436,8 @@ copy_files_and_replace_password "/root/item/move/html" "/usr/local/lsws/Example/
 
 install_acme_sh "olspanel.cp@gmail.com"
 /root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+/root/.acme.sh/acme.sh --upgrade --auto-upgrade
+
 remove_files_in_html_folder
 unzip_and_move
 setup_cp_service_with_port
