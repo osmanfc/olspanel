@@ -1501,7 +1501,8 @@ echo "sshd is enabled to start on boot."
 
 
 replace_python_in_service
-echo "$(hostname -I | awk '{print $1}')" | sudo tee /etc/pure-ftpd/conf/ForcePassiveIP > /dev/null
+IP=$(ip=$(hostname -I | awk '{print $1}'); if [[ $ip == 10.* || $ip == 172.* || $ip == 192.168.* ]]; then ip=$(curl -m 10 -s ifconfig.me); [[ -z $ip ]] && ip=$(hostname -I | awk '{print $1}'); fi; echo $ip)
+echo "$IP" | sudo tee /etc/pure-ftpd/conf/ForcePassiveIP > /dev/null
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
