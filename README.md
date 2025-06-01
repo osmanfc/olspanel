@@ -5,6 +5,7 @@
 ---
 
 ## 📌 Features
+✅ **Account Management** – allow users to set and manage disk and bandwidth limits according to their selected package.  
 ✅ **OpenLiteSpeed Web Server** – Fast and efficient web server for optimized performance.  
 ✅ **MariaDB Database** – Reliable and high-performance database management.  
 ✅ **Auto SSL** – Secure your websites with Let's Encrypt SSL.  
@@ -28,6 +29,7 @@
 - ✅ **Ubuntu 24.04 (Noble Numbat)**
 - ✅ **CentOS 8/9**
 - ✅ **AlmaLinux 8/9**
+- ✅ **Rocky Linux 8/9**
 - ✅ **Debian 11/12**
 
 > ℹ️ *Support for additional Linux distributions is coming soon!*
