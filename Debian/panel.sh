@@ -903,6 +903,7 @@ install_all_lsphp_versions() {
         echo "Installing PHP $version..."
         sudo apt-get install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
 	sudo apt-get install -y lsphp"$version"-curl
+        sudo apt-get install -y lsphp"$version"-json
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
