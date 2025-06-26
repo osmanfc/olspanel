@@ -1052,6 +1052,7 @@ sudo ${PACKAGE_MANAGER} search lsphp
         echo "Installing PHP $version..."
         sudo ${PACKAGE_MANAGER} install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysqlnd
 	sudo ${PACKAGE_MANAGER} install -y lsphp"$version"-curl
+        sudo ${PACKAGE_MANAGER} install -y lsphp"$version"-json
 
         # Check if installation was successful
         if [ -x "/usr/local/lsws/lsphp$version/bin/php" ]; then
