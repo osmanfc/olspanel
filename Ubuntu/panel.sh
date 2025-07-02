@@ -1135,6 +1135,7 @@ replace_python_in_cron_and_service() {
         echo "Restarting the cp service..."
         systemctl restart cp.service
         "$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+	"$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
         echo "Successfully updated cron job and systemd service to use virtual environment Python."
    
 }
