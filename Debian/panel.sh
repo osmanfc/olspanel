@@ -1152,6 +1152,7 @@ replace_python_in_cron_and_service() {
         echo "Restarting the cp service..."
         systemctl restart cp.service
         "$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
+	"$VENV_PYTHON" /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
         echo "Successfully updated cron job and systemd service to use virtual environment Python."
     else
         echo "Ubuntu version is lower than 24. No changes were made."
@@ -1271,5 +1272,7 @@ replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 curl -sSL https://olspanel.com/extra/swap.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
+curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
+python3 /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
 display_success_message
 sudo rm -rf /root/item
