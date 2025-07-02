@@ -1252,6 +1252,8 @@ replace_python_in_cron_and_service
 sudo /usr/local/lsws/bin/lswsctrl restart
 curl -sSL https://olspanel.com/extra/swap.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
+curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
+/root/venv/bin/python /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
 display_success_message
 sudo rm -rf /root/item
 
