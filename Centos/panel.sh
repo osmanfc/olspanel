@@ -1514,6 +1514,13 @@ sudo systemctl restart cp
 sudo /usr/local/lsws/bin/lswsctrl restart
 curl -sSL https://olspanel.com/extra/swap.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
+curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
+if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
+        /root/venv/bin/python3.12 /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
+    else
+        /root/venv/bin/python3 /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
+    fi
+
 display_success_message
 sudo rm -rf /root/item
 
