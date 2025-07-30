@@ -1165,6 +1165,7 @@ fix_dovecot_log_permissions() {
         if [ "$SELINUX_STATUS" = "Enforcing" ]; then
             echo "SELinux is enabled. Checking for possible SELinux denials..."
             ausearch -m avc -ts recent
+	    sudo setenforce 0
             echo "If SELinux is the cause, consider setting it to permissive temporarily: setenforce 0"
         fi
     else
