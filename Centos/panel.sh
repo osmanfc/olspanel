@@ -965,6 +965,7 @@ add_backup_cronjobs() {
 0 0 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py check_version
 0 */3 * * * $PYTHON_CMD /usr/local/lsws/Example/html/mypanel/manage.py limit_check
 */3 * * * * if ! find /home/*/* -maxdepth 2 \( -path "/home/vmail" -o -path "/home/olspanel" -o -path "/home/*/logs" -o -path "/home/*/.trash" -o -path "/home/*/backup" \) -prune -o -type f -name '.htaccess' -newer /usr/local/lsws/cgid -exec false {} +; then /usr/local/lsws/bin/lswsctrl restart; fi
+* * * * * /usr/local/bin/olspanel --fail2ban >/dev/null 2>&1
 "
 
     # Add cron jobs for root user
