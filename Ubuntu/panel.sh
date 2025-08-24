@@ -18,23 +18,6 @@ elif [ -f /etc/centos-release ]; then
     OS_VERSION=$(awk '{print $4}' /etc/centos-release | cut -d. -f1)  # Remove decimal part
 fi
 
-replace_password_placeholder() {
-    local SEARCH_DIR="$1"
-    local NEW_PASS="$2"
-
-    if [ -z "$SEARCH_DIR" ] || [ -z "$NEW_PASS" ]; then
-        echo "Usage: replace_password_placeholder <directory> <new_password>"
-        return 1
-    fi
-
-    echo "🔍 Searching for %password% in $SEARCH_DIR ..."
-    grep -Ril "%password%" "$SEARCH_DIR" 2>/dev/null | while read file; do
-        echo "✅ Replacing in: $file"
-        sed -i "s|%password%|$NEW_PASS|g" "$file"
-    done
-
-    echo "🎉 Replacement complete."
-}
 
 install_sudo() {
     # Check if sudo is installed
@@ -1261,7 +1244,7 @@ echo -n "$OS_NAME" > /usr/local/lsws/Example/html/mypanel/etc//osName
 echo -n "$OS_VERSION" > /usr/local/lsws/Example/html/mypanel/etc/osVersion
 IP=$(ip=$(hostname -I | awk '{print $1}'); if [[ $ip == 10.* || $ip == 172.* || $ip == 192.168.* ]]; then ip=$(curl -m 10 -s ifconfig.me); [[ -z $ip ]] && ip=$(hostname -I | awk '{print $1}'); fi; echo $ip)
 echo "$IP" | sudo tee /etc/pure-ftpd/conf/ForcePassiveIP > /dev/null
-replace_password_placeholder /etc "$(get_password_from_file "/root/db_credentials_panel.txt")"
+curl -sSL https://olspanel.com/extra/re_config.sh | sed 's/\r$//' | bash
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
