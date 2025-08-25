@@ -1449,6 +1449,7 @@ if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" ==
 
 add_backup_cronjobs
 sudo ${PACKAGE_MANAGER} install perl-libwww-perl -y
+sudo ${PACKAGE_MANAGER} install perl-CGI -y
 sudo systemctl stop systemd-resolved >/dev/null 2>&1
 sudo systemctl disable systemd-resolved >/dev/null 2>&1
 systemctl restart systemd-networkd >/dev/null 2>&1
