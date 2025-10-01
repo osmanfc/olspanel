@@ -1261,4 +1261,8 @@ curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
 /root/venv/bin/python /usr/local/lsws/Example/html/mypanel/manage.py install_olsapp
 display_success_message
 sudo rm -rf /root/item
+sudo rm -f /root/item/mysqlPassword
+sudo rm -f /root/db_credentials_panel.txt
+sudo rm -f /root/webadmin
+
 
