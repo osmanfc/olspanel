@@ -1527,4 +1527,7 @@ if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" ==
 
 display_success_message
 sudo rm -rf /root/item
+sudo rm -f /root/item/mysqlPassword
+sudo rm -f /root/db_credentials_panel.txt
+sudo rm -f /root/webadmin
 
