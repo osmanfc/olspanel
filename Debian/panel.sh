@@ -1163,6 +1163,9 @@ replace_python_in_cron_and_service() {
 
 disable_kernel_message
 # Directory to save the password
+
+sudo apt install unzip -y
+
 PASSWORD_DIR="/root/item"
 PASSWORD_FILE="$PASSWORD_DIR/mysqlPassword"
 
