@@ -67,7 +67,8 @@ install_pip() {
     wait_for_apt_lock
     sudo apt install -y python3 python3-venv python3-pip pkg-config
     sudo apt install -y libmariadb-dev
-    
+    sudo apt install -y build-essential python3-dev default-libmysqlclient-dev pkg-config gcc
+	sudo apt install -y libmariadb-dev-compat
     # Check Ubuntu version and use virtual environment if Ubuntu 24.04+
 if [ "$OS_NAME" = "debian" ] && [ "$OS_VERSION" -ge 11 ]; then
     
