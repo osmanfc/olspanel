@@ -897,7 +897,7 @@ install_all_lsphp_versions() {
 
    
     # Install PHP versions from 7.4 to 8.4
-    for version in 74 80 81 82 83 84; do
+    for version in 74 80 81 82 83 84 85; do
         echo "Installing PHP $version..."
         sudo apt-get install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysql
         sudo apt-get install -y lsphp"$version"-curl
