@@ -1049,7 +1049,7 @@ sudo ${PACKAGE_MANAGER} search lsphp
     #sudo apt-get update
 
     # Install PHP versions from 7.4 to 8.4
-    for version in 74 80 81 82 83 84; do
+    for version in 74 80 81 82 83 84 85; do
         echo "Installing PHP $version..."
         sudo ${PACKAGE_MANAGER} install -y lsphp"$version" lsphp"$version"-common lsphp"$version"-mysqlnd
 	sudo ${PACKAGE_MANAGER} install -y lsphp"$version"-curl
