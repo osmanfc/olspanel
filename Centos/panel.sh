@@ -341,6 +341,7 @@ sudo systemctl start postfix
 
     # Install Dovecot SQLite backend
     sudo ${PACKAGE_MANAGER} install -y dovecot-sqlite dovecot-mysql
+sudo ${PACKAGE_MANAGER} install -y dovecot dovecot-mysql
 
    
 
