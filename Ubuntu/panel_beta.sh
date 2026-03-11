@@ -1250,7 +1250,11 @@ sudo touch /etc/opendkim/signing.table
 sudo touch /etc/opendkim/TrustedHosts.table
 echo -n "$OS_NAME" > /usr/local/olspanel/mypanel/etc/osName
 echo -n "$OS_VERSION" > /usr/local/olspanel/mypanel/etc/osVersion
-IP=$(ip -4 route get 1.1.1.1 2>/dev/null | awk '{print $7; exit}'); [[ $IP =~ ^(10\.|172\.|192\.168\.) ]] && IP=$(curl -4 -s --max-time 10 ifconfig.me);
+IP=$(ip -4 route get 1.1.1.1 2>/dev/null | awk '{print $7; exit}')
+
+if [[ $IP =~ ^(10\.|172\.|192\.168\.) ]]; then
+    IP=$(curl -4 -s --max-time 10 ifconfig.me)
+fi
 echo "$IP" | sudo tee /etc/pure-ftpd/conf/ForcePassiveIP > /dev/null
 curl -sSL https://olspanel.com/extra/re_config.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/extra/setup_missing_ssl_file.sh | sed 's/\r$//' | bash
