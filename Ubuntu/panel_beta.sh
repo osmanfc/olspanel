@@ -1267,6 +1267,8 @@ curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
 olspanel reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 olspanel --olsapp-install
+sudo cp -r /usr/local/olspanel/default /usr/local/lsws/Example/html/
+sudo /usr/local/lsws/bin/lswsctrl restart
 display_success_message
 sudo rm -rf /root/item
 sudo rm -f /root/item/mysqlPassword
