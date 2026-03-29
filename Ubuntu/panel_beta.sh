@@ -1070,10 +1070,10 @@ fix_dovecot_log_permissions() {
 
 display_success_message() {
 
-    GREEN='\033[38;5;83m'
-    NC='\033[0m'	
+    GREEN=$'\e[38;5;83m'
+    NC=$'\e[0m'	
     # Get the IP address
-    IP=$(hostname -I | awk '{print $1}')
+    IP=$(ip=$(hostname -I | awk '{print $1}'); if [[ $ip == 10.* || $ip == 172.* || $ip == 192.168.* ]]; then ip=$(curl -4 -m 10 -s ifconfig.me); [[ -z $ip ]] && ip=$(hostname -I | awk '{print $1}'); fi; echo $ip)
     
     # Get the port from the file
     PORT=$(cat /root/item/port.txt)
@@ -1083,10 +1083,10 @@ display_success_message() {
    
     
     # Print success message in green
-    echo "${GREEN}You have successfully installed the webhost panel!"
-    echo "Admin URL is: https://${IP}:${PORT}"
-    echo "Username: admin"
-    echo "Password: ${DB_PASSWORDx}${NC}"
+   printf "%sYou have successfully installed OLSPanel!\n" "$GREEN"
+   printf "Admin URL is: https://%s:%s\n" "$IP" "$PORT"
+   printf "Username: admin\n"
+   printf "Password: %s%s\n" "$DB_PASSWORDx" "$NC"
 }
 
 install_python_dependencies_in_venv() {
