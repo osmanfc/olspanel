@@ -1259,7 +1259,7 @@ display_success_message() {
     fi
     
     # Print success message in green
-    echo "${GREEN}You have successfully installed the webhost panel!"
+    echo "${GREEN}You have successfully installed the OLSPanel!"
     echo "Admin URL is: https://${IP}:${PORT}"
     echo "Username: admin"
     echo "Password: ${DB_PASSWORDx}${NC}"
