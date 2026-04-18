@@ -868,7 +868,7 @@ add_backup_cronjobs() {
 }
 
 remove_files_in_html_folder() {
-    target_dir="/usr/local/olspanel"
+    target_dir="/usr/local/lsws/Example/html"
     files_to_remove="index.html phpinfo.php upload.html upload.php"
 
     # Check if the target directory exists
