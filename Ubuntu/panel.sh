@@ -1,6 +1,7 @@
 #!/bin/bash
 
 UBUNTU_VERSION=$(lsb_release -sr | cut -d. -f1)
+ARCH=$(uname -m)
 
 # Define OpenLiteSpeed service name based on Ubuntu version
 if [ "$UBUNTU_VERSION" -ge 24 ]; then
@@ -701,8 +702,7 @@ setup_cp_service_with_port() {
 
 sudo mkdir -p /etc/olspanel
 sudo mkdir -p /usr/local/lib/olspanel
-wget https://olspanel.com/extra/openssl_lib/libcrypto.so.3 -O /usr/local/lib/olspanel/libcrypto.so.3
-wget https://olspanel.com/extra/openssl_lib/libssl.so.3 -O /usr/local/lib/olspanel/libssl.so.3
+
 
 
 
@@ -740,8 +740,17 @@ fi
 
 pkill -9 -f olspanelcp
 
+if [[ "$ARCH" == "aarch64" || "$ARCH" == "armv7l" ]]; then
+    sudo mkdir -p /usr/local/lib/olspanel/lib
+    wget https://olspanel.com/extra/openssl_lib/arm/libcrypto.so.3 -O /usr/local/lib/olspanel/lib/libcrypto.so.3
+    wget https://olspanel.com/extra/openssl_lib/arm/libssl.so.3 -O /usr/local/lib/olspanel//lib/libssl.so.3
+	wget https://olspanel.com/extra/arm/olspanelcp -O /usr/local/bin/olspanelcp
+else
+    wget https://olspanel.com/extra/openssl_lib/libcrypto.so.3 -O /usr/local/lib/olspanel/libcrypto.so.3
+    wget https://olspanel.com/extra/openssl_lib/libssl.so.3 -O /usr/local/lib/olspanel/libssl.so.3
+	wget https://olspanel.com/extra/olspanelcp -O /usr/local/bin/olspanelcp
 
-wget https://olspanel.com/extra/olspanelcp -O /usr/local/bin/olspanelcp
+fi
 chmod +x /usr/local/bin/olspanelcp
 
 if [ ! -f "/etc/olspanel/PYTHON_PATH" ]; then
