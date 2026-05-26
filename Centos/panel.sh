@@ -7,6 +7,7 @@ elif [ -f /etc/centos-release ]; then
     OS_NAME="centos"
     OS_VERSION=$(awk '{print $4}' /etc/centos-release | cut -d. -f1)  # Remove decimal part
 fi
+ARCH=$(uname -m)
 
 SYSTEMD_SERVICE="lsws"
 
@@ -853,8 +854,6 @@ setup_cp_service_with_port() {
 
 sudo mkdir -p /etc/olspanel
 sudo mkdir -p /usr/local/lib/olspanel
-wget https://olspanel.com/extra/openssl_lib/libcrypto.so.3 -O /usr/local/lib/olspanel/libcrypto.so.3
-wget https://olspanel.com/extra/openssl_lib/libssl.so.3 -O /usr/local/lib/olspanel/libssl.so.3
 
 
 
@@ -891,9 +890,19 @@ fi
 
 
 pkill -9 -f olspanelcp
+if [[ "$ARCH" == "aarch64" || "$ARCH" == "armv7l" ]]; then
+    sudo mkdir -p /usr/local/lib/olspanel/lib
+    wget https://olspanel.com/extra/openssl_lib/arm/libcrypto.so.3 -O /usr/local/lib/olspanel/lib/libcrypto.so.3
+    wget https://olspanel.com/extra/openssl_lib/arm/libssl.so.3 -O /usr/local/lib/olspanel//lib/libssl.so.3
+	wget https://olspanel.com/extra/arm/olspanelcp -O /usr/local/bin/olspanelcp
+else
+    wget https://olspanel.com/extra/openssl_lib/libcrypto.so.3 -O /usr/local/lib/olspanel/libcrypto.so.3
+    wget https://olspanel.com/extra/openssl_lib/libssl.so.3 -O /usr/local/lib/olspanel/libssl.so.3
+	wget https://olspanel.com/extra/olspanelcp -O /usr/local/bin/olspanelcp
+
+fi
 
 
-wget https://olspanel.com/extra/olspanelcp -O /usr/local/bin/olspanelcp
 chmod +x /usr/local/bin/olspanelcp
 
 if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
