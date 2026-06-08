@@ -1324,6 +1324,8 @@ curl -sSL https://olspanel.com/extra/database_update.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/olsapp/install.sh | sed 's/\r$//' | bash
 olspanel reset_admin_password "$(get_password_from_file "/root/db_credentials_panel.txt")"
 olspanel --olsapp-install
+sudo chown -R nobody:nogroup /usr/local/olspanel/mypanel/3rdparty/rainloop/data
+sudo chmod -R 775 /usr/local/olspanel/mypanel/3rdparty/rainloop/data
 display_success_message
 sudo rm -rf /root/item
 sudo rm -f /root/item/mysqlPassword
