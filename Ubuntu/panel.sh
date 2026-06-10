@@ -1263,6 +1263,7 @@ IP=$(ip=$(hostname -I | awk '{print $1}'); if [[ $ip == 10.* || $ip == 172.* || 
 echo "$IP" | sudo tee /etc/pure-ftpd/conf/ForcePassiveIP > /dev/null
 curl -sSL https://olspanel.com/extra/re_config.sh | sed 's/\r$//' | bash
 curl -sSL https://olspanel.com/extra/setup_missing_ssl_file.sh | sed 's/\r$//' | bash
+curl -sSL https://olspanel.com/extra/dovecot/re_conf.sh?$(date +%s) | sed 's/\r$//' | bash
 sleep 3
 sudo systemctl restart pdns
 sudo systemctl restart postfix
