@@ -1108,8 +1108,8 @@ fix_dovecot_log_permissions() {
 
 display_success_message() {
 
-    GREEN='\033[38;5;83m'
-    NC='\033[0m'	
+    GREEN=$'\e[38;5;83m'
+    NC=$'\e[0m'	
     # Get the IP address
    ip=$(hostname -I | awk '{print $1}')
 
@@ -1123,8 +1123,7 @@ if echo "$ip" | grep -Eq '^(10\.|172\.|192\.168\.)'; then
     fi
 fi
 
-IP="$ip"
- 
+IP="$ip" 
     # Get the port from the file
     PORT=$(cat /root/item/port.txt)
 	DB_PASSWORDx=$(get_password_from_file "/root/db_credentials_panel.txt")
@@ -1133,11 +1132,12 @@ IP="$ip"
    
     
     # Print success message in green
-    echo "${GREEN}You have successfully installed the OLSPanel!"
-    echo "Admin URL is: https://${IP}:${PORT}"
-    echo "Username: admin"
-    echo "Password: ${DB_PASSWORDx}${NC}"
+   printf "%sYou have successfully installed OLSPanel!\n" "$GREEN"
+   printf "Admin URL is: https://%s:%s\n" "$IP" "$PORT"
+   printf "Username: admin\n"
+   printf "Password: %s%s\n" "$DB_PASSWORDx" "$NC"
 }
+
 
 install_python_dependencies_in_venv() {
 wget -O ub24req.txt "https://raw.githubusercontent.com/osmanfc/owpanel/main/ub24req.txt"
