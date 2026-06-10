@@ -715,6 +715,20 @@ sudo mkdir -p /usr/local/lib/olspanel
 
 
 if [ ! -f "/etc/olspanel/cert.pem" ]; then
+ ip=$(hostname -I | awk '{print $1}')
+
+if echo "$ip" | grep -Eq '^(10\.|172\.|192\.168\.)'; then
+    public_ip=$(curl -4 -m 10 -s ifconfig.me)
+
+    if [ -n "$public_ip" ]; then
+        ip="$public_ip"
+    else
+        ip=$(hostname -I | awk '{print $1}')
+    fi
+fi
+
+IP="$ip"
+
 sudo openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 \
   -subj "/C=US/ST=State/L=City/O=OLS Panel/CN=$IP" \
   -keyout /etc/olspanel/key.pem \
