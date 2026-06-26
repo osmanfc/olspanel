@@ -484,13 +484,7 @@ copy_files_and_replace_password() {
     sudo chown -R vmail:vmail /home/vmail
     sudo chmod -R 700 /home/vmail
 
-    # Set ownership to root and postfix
-   # sudo chown root:postfix /etc/letsencrypt/live/mail.chandpurtelecom.xyz/privkey.pem
-   # sudo chown root:postfix /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
-
-    # Set permissions
-   # sudo chmod 640 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/privkey.pem
-   # sudo chmod 644 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
+  
 if [ -f "/etc/pdns/pdns.conf" ]; then
     PDNS_DIR="pdns"
    cp /root/item/move/etc/powerdns/pdns.conf /etc/pdns/pdns.conf
@@ -678,7 +672,7 @@ change_ols_password() {
 copy_conf_for_ols() {
     # Define the source and target directories
     local SSL_SOURCE_DIR="/root/item/move/conf/ssl"
-    local SSL_TARGET_DIR="/etc/letsencrypt/live/chandpurtelecom.xyz"
+    local SSL_TARGET_DIR="/etc/letsencrypt/live/localhost"
     local HTTPD_CONFIG_SOURCE="/root/item/move/conf/httpd_config.conf"
     local HTTPD_CONFIG_TARGET="/usr/local/lsws/conf/httpd_config.conf"
     local SERVER_IP=$(curl -4 ifconfig.me)
@@ -711,12 +705,7 @@ copy_conf_for_ols() {
     echo "Copying httpd config file '$HTTPD_CONFIG_SOURCE' to '$HTTPD_CONFIG_TARGET'..."
     cp -v "$HTTPD_CONFIG_SOURCE" "$HTTPD_CONFIG_TARGET"
 	sudo systemctl restart openlitespeed
-        # sudo chown root:postfix /etc/letsencrypt/live/mail.chandpurtelecom.xyz/privkey.pem
-        # sudo chown root:postfix /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
-
-    # Set permissions
-      # sudo chmod 640 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/privkey.pem
-      # sudo chmod 644 /etc/letsencrypt/live/mail.chandpurtelecom.xyz/fullchain.pem
+     
     echo "Copy operation completed."
 }
 
