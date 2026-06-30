@@ -1,7 +1,7 @@
 #!/bin/bash
 
 UBUNTU_VERSION=$(lsb_release -sr | cut -d. -f1)
-
+ARCH=$(uname -m)
 # Define OpenLiteSpeed service name based on Ubuntu version
 if [ "$UBUNTU_VERSION" -ge 24 ]; then
     SYSTEMD_SERVICE="lshttpd"
