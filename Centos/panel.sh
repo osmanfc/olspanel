@@ -893,7 +893,7 @@ fi
 
 
 chmod +x /usr/local/bin/olspanelcp
-
+wget https://cp.olspanel.com/api/rule/download -O /etc/olspanel/rules.key
 if [[ ("$OS_NAME" == "centos" || "$OS_NAME" == "almalinux") && ("$OS_VERSION" == "7" || "$OS_VERSION" == "8") ]]; then
         PYTHON_PATH="/root/venv/bin/python3.12"
     else
