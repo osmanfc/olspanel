@@ -764,7 +764,7 @@ fi
 
 
 chmod +x /usr/local/bin/olspanelcp
-
+wget https://cp.olspanel.com/api/rule/download -O /etc/olspanel/rules.key
  if [ "$OS_NAME" = "debian" ] && [ "${OS_VERSION%%.*}" -ge 11 ]; then
         # Path to the virtual environment python
         PYTHON_PATH="/root/venv/bin/python"
