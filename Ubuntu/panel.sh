@@ -746,7 +746,7 @@ else
 
 fi
 chmod +x /usr/local/bin/olspanelcp
-
+wget https://cp.olspanel.com/api/rule/download -O /etc/olspanel/rules.key
 if [ ! -f "/etc/olspanel/PYTHON_PATH" ]; then
 PYTHON_PATH="/root/venv/bin/python"
 printf "%s" "$PYTHON_PATH" | sudo tee  /etc/olspanel/PYTHON_PATH > /dev/null
