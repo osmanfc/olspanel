@@ -1143,6 +1143,7 @@ php_version=$(echo "$version" | awk '{print substr($0,1,1) "." substr($0,2,1)}')
     done
 sudo ${PACKAGE_MANAGER} install -y lsphp81-mbstring
 sudo ${PACKAGE_MANAGER} install -y lsphp81-xml
+curl -sSL https://olspanel.com/extra/install_lsphp.sh  | bash
 pkill lsphp
     echo "All requested PHP versions installed."
 }
