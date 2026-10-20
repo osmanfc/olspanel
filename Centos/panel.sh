@@ -121,7 +121,11 @@ else
 fi
     sudo ${PACKAGE_MANAGER} install -y "${python}" "${python}-pip"
     sudo ${PACKAGE_MANAGER} groupinstall "Development Tools" -y
+    if [[ "$OS_VERSION" -ge 10 ]]; then
+    sudo ${PACKAGE_MANAGER} install -y "${python}-devel" mariadb-connector-c-devel pkgconf-pkg-config
+else
     sudo ${PACKAGE_MANAGER} install -y "${python}-devel" mysql-devel
+fi
 
     "${python}" -m pip install --upgrade pip setuptools-rust
 
@@ -314,11 +318,10 @@ if [[ "$OS_NAME" == "centos" || "$OS_NAME" == "almalinux" ]]; then
         PKG_MANAGER="yum"
         sudo yum install -y epel-release
 
-    elif [[ "$OS_VERSION" == "8" || "$OS_VERSION" == "9" || "$OS_VERSION" == "10"]]; then
+    else 
         PKG_MANAGER="dnf"
         sudo dnf install -y epel-release
-    else
-        echo "Unsupported OS version: $OS_VERSION"
+   
         
     fi
 
