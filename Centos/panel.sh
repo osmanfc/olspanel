@@ -114,7 +114,11 @@ install_pip() {
 echo "Installing Python on ${OS_NAME} version ${OS_VERSION}  dependencies...${python}"
     sudo ${PACKAGE_MANAGER} install -y epel-release
     sudo ${PACKAGE_MANAGER} install -y ${PACKAGE_MANAGER}-utils
+    if [[ "$OS_NAME" == "almalinux" && "$OS_VERSION" == "10" ]]; then
+    sudo dnf config-manager --set-enabled crb
+else
     sudo ${PACKAGE_MANAGER} config-manager --set-enabled powertools
+fi
     sudo ${PACKAGE_MANAGER} install -y "${python}" "${python}-pip"
     sudo ${PACKAGE_MANAGER} groupinstall "Development Tools" -y
     sudo ${PACKAGE_MANAGER} install -y "${python}-devel" mysql-devel
@@ -310,7 +314,7 @@ if [[ "$OS_NAME" == "centos" || "$OS_NAME" == "almalinux" ]]; then
         PKG_MANAGER="yum"
         sudo yum install -y epel-release
 
-    elif [[ "$OS_VERSION" == "8" || "$OS_VERSION" == "9" ]]; then
+    elif [[ "$OS_VERSION" == "8" || "$OS_VERSION" == "9" || "$OS_VERSION" == "10"]]; then
         PKG_MANAGER="dnf"
         sudo dnf install -y epel-release
     else
